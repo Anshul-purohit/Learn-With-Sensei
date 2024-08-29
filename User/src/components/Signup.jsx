@@ -4,12 +4,11 @@ import axios from 'axios';
 import loginImg from "../assets/login-img.png";
 import {ToastContainer,toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { useTheme } from './ThemeContext';
 import { useShared } from '../SharedContext';
 
 
 const Signup = () => {
-    const { isDarkMode, toggleTheme } = useTheme();
+    const { isDarkMode, toggleTheme } = useShared();
     const [fullname, setFullname] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');

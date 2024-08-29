@@ -1,8 +1,8 @@
+import { useShared } from '../../SharedContext';
 import './styleShimmer.css';
-import { useTheme } from '../ThemeContext';
 
 const CoursePageShimmer = () => {
-    const { isDarkMode } = useTheme();
+    const { isDarkMode } = useShared();
 
     return (
         <div className={`min-h-screen flex flex-col lg:flex-row ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-900'}`}>

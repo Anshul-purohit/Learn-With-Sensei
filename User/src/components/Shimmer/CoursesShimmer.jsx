@@ -1,8 +1,8 @@
-import { useTheme } from '../ThemeContext';
+import { useShared } from '../../SharedContext';
 import './styleShimmer.css'; 
 
 const CoursesShimmer = () => {
-    const { isDarkMode } = useTheme();
+    const { isDarkMode } = useShared();
 
   const shimmerPlaceholders = Array.from({ length: 6 }).map((_, index) => (
     <div key={index} className={`border rounded-lg p-4 shadow-lg flex flex-col justify-between ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>

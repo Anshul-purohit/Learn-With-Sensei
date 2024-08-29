@@ -1,8 +1,8 @@
+import { useShared } from '../../SharedContext';
 import './styleShimmer.css';
-import { useTheme } from '../ThemeContext';
 
 const EditProfileShimmer = () => {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useShared();
 
   return (
     <div className={`w-full min-h-screen ${isDarkMode ? 'bg-gray-900 text-gray-300' : 'bg-gray-100 text-gray-800'} flex items-center justify-center`}>

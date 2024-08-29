@@ -1,11 +1,11 @@
 import React from 'react';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
-import { useTheme } from './ThemeContext';
 import { Link } from 'react-router-dom';
 import { FaArrowUp } from "react-icons/fa"
+import { useShared } from '../SharedContext';
 
 const Footer = () => {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useShared();
 
   const scrollToTop = () => {
     window.scrollTo({

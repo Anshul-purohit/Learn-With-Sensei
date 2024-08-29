@@ -6,13 +6,12 @@ import axios from "axios";
 import {ToastContainer,toast} from "react-toastify"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
-import { useTheme } from './ThemeContext'; 
 import '../style.css';
 import logo from '../assets/logo2.png';
 import Cookies from 'js-cookie';
 
 const Header = () => {
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode, toggleTheme } = useShared();
   const { isToggleOpen, handleToggleOpen, isAuthenticated, user, logout } = useShared();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();

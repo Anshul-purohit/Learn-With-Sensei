@@ -3,7 +3,6 @@ import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Import the CSS for styling
 import { useShared } from "../SharedContext";
-import { useTheme } from './ThemeContext'; 
 import EditProfileShimmer from "./Shimmer/EditProfileShimmer";
 
 // Simple spinner component
@@ -16,7 +15,7 @@ const Spinner = () => (
 const EditProfile = () => {
     const [loading, setLoading] = useState(true);
     const [avatarLoading, setAvatarLoading] = useState(false); // New state for avatar upload loading
-    const { isDarkMode } = useTheme();
+    const { isDarkMode } = useShared();
     const { username, fullname, email } = useShared();
     const [newUsername, setNewUsername] = useState("");
     const [newFullname, setNewFullname] = useState("");

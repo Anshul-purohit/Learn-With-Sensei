@@ -1,7 +1,8 @@
 // import React from 'react';
 // import { Link } from 'react-router-dom';
 import { FaLaptopCode, FaDatabase, FaCogs, FaProjectDiagram, FaBrain, FaRobot, FaMobileAlt, FaPalette } from 'react-icons/fa';
-import { useTheme } from './ThemeContext'; // Import the theme context
+import { useShared } from '../SharedContext';
+
 
 
 const categories = [
@@ -16,7 +17,7 @@ const categories = [
 ];
 
 const CategoryCard = () => {
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode, toggleTheme } = useShared();
 
   return (
     <div className={`w-full relative flex items-center justify-center content-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>

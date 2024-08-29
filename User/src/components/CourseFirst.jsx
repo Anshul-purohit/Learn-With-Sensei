@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShared } from '../SharedContext';
-import { useTheme } from './ThemeContext';
 
 const CourseFirst = () => {
-    const {isDarkMode} = useTheme();
+    const {isDarkMode} = useShared();
     const navigate = useNavigate();
     const { coursebyId } = useParams();
     const { userid, apiBaseUrl } = useShared();

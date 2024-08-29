@@ -4,11 +4,10 @@ import { ThumbUpIcon as ThumbUpSolid } from '@heroicons/react/solid';
 import {  toast } from "react-toastify";
 import axios from 'axios';
 import { useShared } from '../SharedContext';
-import { useTheme } from './ThemeContext'; 
 
 
 const CommentsSection = ({ videoId }) => {
-    const {isDarkMode , toggleTheme} = useTheme();
+    const {isDarkMode , toggleTheme} = useShared();
     const { apiBaseUrl } = useShared()
     const [newReply, setNewReply] = useState({});
     const [replyingTo, setReplyingTo] = useState(null);
