@@ -1,8 +1,9 @@
 // import React from 'react';
 import { useEffect, useState } from 'react';
 import GirlImg from '../assets/girl-image.jpg';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../ThemeContext';
 import axios from 'axios';
+import { useShared } from '../SharedContext';
 
 const Statistics = () => {
 
@@ -10,6 +11,7 @@ const Statistics = () => {
   const [courses,setCourses] = useState(0);
   const [instructors,setInstructors] = useState(0);
   const [category,setCategory] = useState(0);
+  const {apiBaseUrl} = useShared()
 
   const statisticsData = [
     { id: 1, label: 'Students Joined', value: students },
@@ -19,7 +21,7 @@ const Statistics = () => {
   ];
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/v1/dashboard', {
+    axios.get(`${apiBaseUrl}/dashboard`, {
         withCredentials: true
     })
     .then(function (response) {

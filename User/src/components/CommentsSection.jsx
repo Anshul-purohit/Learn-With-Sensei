@@ -4,11 +4,12 @@ import { ThumbUpIcon as ThumbUpSolid } from '@heroicons/react/solid';
 import {  toast } from "react-toastify";
 import axios from 'axios';
 import { useShared } from '../SharedContext';
-import { useTheme } from './ThemeContext'; 
+import { useTheme } from '../ThemeContext'; 
 
 
 const CommentsSection = ({ videoId }) => {
     const {isDarkMode , toggleTheme} = useTheme();
+    const { apiBaseUrl } = useShared()
     const [newReply, setNewReply] = useState({});
     const [replyingTo, setReplyingTo] = useState(null);
     const [showReplies, setShowReplies] = useState({});
@@ -24,7 +25,7 @@ const CommentsSection = ({ videoId }) => {
     const getComments = async () => {
       if (videoId) {
           try {
-              const response = await axios.get(`http://localhost:8000/api/v1/comments/${videoId}`, { withCredentials: true });
+              const response = await axios.get(`${apiBaseUrl}/comments/${videoId}`, { withCredentials: true });
               // console.log("xx : ",response.data)
               setTotalComments(response.data.data.commentCount)
               const x = response.data.data.rootCommentsWithLikeCount;
@@ -64,7 +65,7 @@ const CommentsSection = ({ videoId }) => {
 
     const handleNewComment = () => {
         if (!newComment) return;
-        axios.post(`http://localhost:8000/api/v1/comments/add-comment/${videoId}`, {
+        axios.post(`${apiBaseUrl}/comments/add-comment/${videoId}`, {
             content: newComment
         }, {
             withCredentials: true
@@ -84,7 +85,7 @@ const CommentsSection = ({ videoId }) => {
         if (!newReply[replyingTo]) return;
 
         console.log(videoId, commentId, newReply[replyingTo]);
-        axios.post(`http://localhost:8000/api/v1/comments/add-reply/${videoId}/${commentId}`, {
+        axios.post(`${apiBaseUrl}/comments/add-reply/${videoId}/${commentId}`, {
             content: newReply[replyingTo]
         }, {
             withCredentials: true
@@ -101,7 +102,7 @@ const CommentsSection = ({ videoId }) => {
     }
 
     const handleDeleteComment = (id, isReply = false, parentId = null) => {
-        axios.delete(`http://localhost:8000/api/v1/comments/${id}`, {
+        axios.delete(`${apiBaseUrl}/api/v1/comments/${id}`, {
             withCredentials: true
         })
         .then(function (response) {
@@ -115,7 +116,7 @@ const CommentsSection = ({ videoId }) => {
 
     const handleCommentLike = (id) => {
         if (id) {
-            axios.patch(`http://localhost:8000/api/v1/likes/c/${id}`, {
+            axios.patch(`${apiBaseUrl}/likes/c/${id}`, {
                 userId: userid 
             }, {
                 withCredentials: true

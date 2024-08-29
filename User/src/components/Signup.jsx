@@ -4,7 +4,8 @@ import axios from 'axios';
 import loginImg from "../assets/login-img.png";
 import {ToastContainer,toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../ThemeContext';
+import { useShared } from '../SharedContext';
 
 
 const Signup = () => {
@@ -15,6 +16,7 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [image,setImage] = useState(null);
     const navigate = useNavigate();
+    const {apiBaseUrl} = useShared()
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -26,7 +28,7 @@ const Signup = () => {
         formData.append('password', password);
         formData.append('avatar', image);
     
-        axios.post('http://localhost:8000/api/v1/users/register', formData, {
+        axios.post(`${apiBaseUrl}/users/register`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

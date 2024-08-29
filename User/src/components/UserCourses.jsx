@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../ThemeContext';
 import { useShared } from '../SharedContext';
 import axios from 'axios';
 import CoursesShimmer from './Shimmer/CoursesShimmer';
@@ -11,11 +11,12 @@ const UserCourses = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const { userid } = useShared();
+    const {apiBaseUrl} = useShared()
 
     useEffect(() => {
         const fetchUserCourses = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/v1/courses/user-courses/${userid}`, { withCredentials: true });
+                const response = await axios.get(`${apiBaseUrl}/courses/user-courses/${userid}`, { withCredentials: true });
                 setCourses(response.data.data);
             } catch (error) {
                 console.error("Error fetching user:", error);

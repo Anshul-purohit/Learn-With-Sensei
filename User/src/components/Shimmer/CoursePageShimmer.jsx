@@ -1,5 +1,5 @@
 import './styleShimmer.css';
-import { useTheme } from '../ThemeContext';
+import { useTheme } from '../../ThemeContext';
 
 const CoursePageShimmer = () => {
     const { isDarkMode } = useTheme();

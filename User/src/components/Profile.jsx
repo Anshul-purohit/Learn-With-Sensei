@@ -5,7 +5,7 @@ import { Link,useNavigate } from 'react-router-dom';
 // import Cards from './Cards';
 import {ToastContainer,toast} from "react-toastify"
 import { useShared } from '../SharedContext';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../ThemeContext';
 import ProfileShimmer from './Shimmer/ProfileShimmer';
 import Cookies from "js-cookie"
 
@@ -14,11 +14,12 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const { logout } = useShared();
+  const {apiBaseUrl} = useShared()
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/users/profile', { withCredentials: true });
+        const response = await axios.get(`${apiBaseUrl}/users/profile`, { withCredentials: true });
         console.log("yyyyyyyy : ",response.data.message);
         let x  = response.data.message
         Cookies.set('username', x.username, { expires: 1 });
@@ -83,7 +84,7 @@ const Profile = () => {
   ];
 
   const handleLogout = () => {
-    axios.get('http://localhost:8000/api/v1/users/logout', {
+    axios.get(`${apiBaseUrl}/users/logout`, {
         withCredentials: true
     })
     .then(function (response) {     

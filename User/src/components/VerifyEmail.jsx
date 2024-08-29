@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useShared } from '../SharedContext';
 
 const VerifyEmail = () => {
   const { token } = useParams();
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
+  const {apiBaseUrl} = useShared()
 
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await axios.post(`http://localhost:8000/api/v1/users/verify-token/${token}`);
+        const response = await axios.post(`${apiBaseUrl}/users/verify-token/${token}`);
         setMessage(response.data.data);
         console.log(response.data.data);
         setTimeout(() => {

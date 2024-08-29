@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const Navbar = () => {
 
+    const {apiBaseUrl} = useShared()
     const navigate = useNavigate();
     const {user} = useShared();
     console.log(user);
@@ -14,7 +15,7 @@ const Navbar = () => {
     const handleLogoutClick = () => {
         axios({
             method: 'get',
-            url: 'http://localhost:8000/api/v1/users/logout',
+            url: `${apiBaseUrl}/users/logout`,
           }).then(function (response) {
                 console.log(response)
                 navigate('/login');

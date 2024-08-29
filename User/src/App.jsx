@@ -14,7 +14,7 @@ import { useShared } from './SharedContext';
 import EditProfile from "./components/EditProfile";
 import Courses from "./components/Courses";
 import CoursePage from "./components/CoursePage";
-import ThemeProvider from "./components/ThemeContext";
+import ThemeProvider from "./ThemeContext";
 import Verify from "./components/Verify";
 import VerifyEmail from "./components/VerifyEmail";
 import CourseFirst from "./components/CourseFirst";

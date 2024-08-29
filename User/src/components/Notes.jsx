@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useTheme } from './ThemeContext'; 
+import { useTheme } from '../ThemeContext'; 
 import { useShared } from '../SharedContext';
 import axios from 'axios';
 import {  toast } from "react-toastify";
@@ -8,13 +8,14 @@ const Notes = ({ vidId }) => {
   const { isDarkMode } = useTheme();
   const [note, setNote] = useState('');
   const { userid } = useShared();
+  const {apiBaseUrl} = useShared()
 
   const handleInputChange = (e) => {
     setNote(e.target.value);
   };
 
   const handleSave = () => {
-    axios.post(`http://localhost:8000/api/v1/notes/${vidId}`, {
+    axios.post(`${apiBaseUrl}/notes/${vidId}`, {
       description: note
     }, {
       withCredentials: true
@@ -31,7 +32,7 @@ const Notes = ({ vidId }) => {
   useEffect(() => {
     const fetchUserNotes = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/notes/${vidId}`, { withCredentials: true });
+        const response = await axios.get(`${apiBaseUrl}/notes/${vidId}`, { withCredentials: true });
         console.log(response.data);
         setNote(response.data.data.notes); // Set the fetched note to state
       } catch (error) {

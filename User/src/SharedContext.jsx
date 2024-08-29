@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
 
 const SharedContext = createContext();
 
@@ -8,21 +7,22 @@ export const SharedProvider = ({ children }) => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState(null);
-  const [fullname,setFullname] = useState(null);
-  const [email,setEmail] = useState(null);
-  const [userid,setUserid] = useState(null)
+  const [fullname, setFullname] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [userid, setUserid] = useState(null);
+
+  const apiBaseUrl = 'http://localhost:8000/api/v1'; // Your API base URL
 
   const handleToggleOpen = () => {
     setIsToggleOpen(!isToggleOpen);
   };
 
-  const login = (uname,fname,mail,id) => {
+  const login = (uname, fname, mail, id) => {
     setIsAuthenticated(true);
     setUsername(uname);
     setFullname(fname);
     setEmail(mail);
-    setUserid(id)
-    // console.log(uname)
+    setUserid(id);
 
     Cookies.set('username', uname, { expires: 1 });
     Cookies.set('fullname', fname, { expires: 1 });
@@ -35,7 +35,7 @@ export const SharedProvider = ({ children }) => {
     setUsername(null);
     setFullname(null);
     setEmail(null);
-    setUserid(null)
+    setUserid(null);
 
     Cookies.remove('username');
     Cookies.remove('fullname');
@@ -49,8 +49,6 @@ export const SharedProvider = ({ children }) => {
     const fullname = Cookies.get('fullname');
     const email = Cookies.get('email');
     const userid = Cookies.get('userid');
-
-    // console.log("zzz : ",Cookies.get())
 
     if (username && fullname && email && userid) {
       setIsAuthenticated(true);
@@ -73,7 +71,8 @@ export const SharedProvider = ({ children }) => {
       login, 
       logout,
       setUsername,
-      setFullname
+      setFullname,
+      apiBaseUrl // Provide the API base URL
     }}>
       {children}
     </SharedContext.Provider>
@@ -83,4 +82,3 @@ export const SharedProvider = ({ children }) => {
 export const useShared = () => useContext(SharedContext);
 
 export default SharedProvider;
-

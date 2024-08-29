@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { useShared } from '../SharedContext';
 
 const UpdateVideo = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
     const { courseId, name, description, thumbnail, videoId } = location.state;
-
+    const {apiBaseUrl} = useShared()
     const [uname,setUname] = useState("");
     const [udescription,setUdescription] = useState("");
     const [uthumbnail,setUthumbnail] = useState(null);
@@ -24,7 +25,7 @@ const UpdateVideo = () => {
         formData.append('thumbnail', uthumbnail || thumbnail);
 
         try {
-            const response = await axios.patch(`http://localhost:8000/api/v1/videos/c/${videoId}`, formData, {
+            const response = await axios.patch(`${apiBaseUrl}/videos/c/${videoId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

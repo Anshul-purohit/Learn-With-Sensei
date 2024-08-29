@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { useShared } from '../SharedContext';
 
 const EditCourse = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { courseId, name, description } = location.state;
+    const {apiBaseUrl} = useShared()
 
     const [courseName, setCourseName] = useState(name);
     const [courseDescription, setCourseDescription] = useState(description);
 
+
     const handleEditCourse = () => {
-        axios.patch(`http://localhost:8000/api/v1/courses/${courseId}`, {
+        axios.patch(`${apiBaseUrl}/courses/${courseId}`, {
             name: courseName,
             description: courseDescription
         }, {

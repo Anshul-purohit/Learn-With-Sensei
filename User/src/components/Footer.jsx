@@ -1,6 +1,7 @@
 import React from 'react';
+import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { useTheme } from './ThemeContext';
-import { FaArrowUp } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const { isDarkMode } = useTheme();

@@ -11,7 +11,7 @@ import { ThumbUpIcon as ThumbUpSolid } from '@heroicons/react/solid';
 import { useShared } from '../SharedContext';
 import ConfettiExplosion from 'react-confetti-explosion';
 import Modal from 'react-modal';
-import {useTheme} from './ThemeContext';
+import {useTheme} from '../ThemeContext';
 import CoursePageShimmer from './Shimmer/CoursePageShimmer';
 
 const CoursePage = () => {
@@ -24,6 +24,7 @@ const CoursePage = () => {
     const [currentVideo, setCurrentVideo] = useState(null);
     const [cmtAndNote, setcmtAndNote] = useState('comment');
     const [checkedState, setCheckedState] = useState([]);
+    const { apiBaseUrl } = useShared()
     
     const playerRef = useRef(null);
     const [curLike, setCurLike] = useState(0);
@@ -51,7 +52,7 @@ const CoursePage = () => {
 
     const handleVideoLike = () => {
         if (selectedVideo) {
-            axios.patch(`http://localhost:8000/api/v1/likes/${selectedVideo._id}`, {
+            axios.patch(`${apiBaseUrl}/likes/${selectedVideo._id}`, {
                 userId: userid 
             }, {
                 withCredentials: true
@@ -75,7 +76,7 @@ const CoursePage = () => {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/v1/courses/${coursebyId}`, { withCredentials: true });
+                const response = await axios.get(`${apiBaseUrl}/courses/${coursebyId}`, { withCredentials: true });
                 console.log("cc :", response.data);
                 setCourse(response.data.data.course[0]);
                 if (response.data.data.course[0].videos.length > 0) {
@@ -97,7 +98,7 @@ const CoursePage = () => {
         const getCurrentLikes = async () => {
             if (selectedVideo?._id) {
                 try {
-                    const response = await axios.get(`http://localhost:8000/api/v1/likes/${selectedVideo._id}`, { withCredentials: true });
+                    const response = await axios.get(`${apiBaseUrl}/likes/${selectedVideo._id}`, { withCredentials: true });
                     setCurLike(response.data.data.videoLikesCount);
                     response.data.data.videoLikedBy.forEach((user) => {
                         if (user === userid) setLikedByUser(true);

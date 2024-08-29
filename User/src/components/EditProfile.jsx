@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Import the CSS for styling
 import { useShared } from "../SharedContext";
-import { useTheme } from './ThemeContext'; 
+import { useTheme } from '../ThemeContext'; 
 import EditProfileShimmer from "./Shimmer/EditProfileShimmer";
 
 // Simple spinner component
@@ -23,6 +23,7 @@ const EditProfile = () => {
     const [oldPass, setOldPass] = useState("");
     const [newPass, setNewPass] = useState("");
     const [newImage, setNewImage] = useState(null);
+    const {apiBaseUrl} = useShared()
 
     useEffect(() => {
         // Set the initial values for username and fullname
@@ -31,7 +32,7 @@ const EditProfile = () => {
     }, [username, fullname]);
 
     const handleEditButton = () => {
-        axios.patch('http://localhost:8000/api/v1/users/update-account', {
+        axios.patch(`${apiBaseUrl}/users/update-account`, {
             fullName: newFullname || fullname,
             username: newUsername || username,
             email: email,
@@ -47,7 +48,7 @@ const EditProfile = () => {
     };
 
     const handlePasswordChange = () => {
-        axios.post('http://localhost:8000/api/v1/users/change-password', {
+        axios.post(`${apiBaseUrl}/users/change-password`, {
             oldPassword: oldPass,
             newPassword: newPass
         }, {
@@ -72,7 +73,7 @@ const EditProfile = () => {
         const formData = new FormData();
         formData.append('avatar', newImage);
 
-        await axios.patch('http://localhost:8000/api/v1/users/avatar', formData, {
+        await axios.patch(`${apiBaseUrl}/users/avatar`, formData, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'multipart/form-data'

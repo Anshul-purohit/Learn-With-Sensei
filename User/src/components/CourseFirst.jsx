@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShared } from '../SharedContext';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../ThemeContext';
 
 const CourseFirst = () => {
     const {isDarkMode} = useTheme();
     const navigate = useNavigate();
     const { coursebyId } = useParams();
-    const { userid } = useShared();
+    const { userid, apiBaseUrl } = useShared();
     const [name, setName] = useState(null);
     const [description, setDescription] = useState(null);
     const [thumbnail, setThumbnail] = useState(null);
@@ -20,7 +20,7 @@ const CourseFirst = () => {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/v1/courses/${coursebyId}`, { withCredentials: true });
+                const response = await axios.get(`${apiBaseUrl}/courses/${coursebyId}`, { withCredentials: true });
                 console.log(response.data)
                 let x = response.data.data.course[0];
                 let y = response.data.data.users_bought_course_id
@@ -56,7 +56,7 @@ const CourseFirst = () => {
     const handleBuyClick = async () => {
         try {
             // Step 1: Create a payment order in your backend
-            const orderResponse = await axios.post('http://localhost:8000/api/v1/payments/course-payment', {
+            const orderResponse = await axios.post(`${apiBaseUrl}/payments/course-payment`, {
                 fee: price
             }, {
                 withCredentials: true
@@ -66,7 +66,7 @@ const CourseFirst = () => {
             const { id, amount, currency } = orderResponse.data.data;
 
             // Step 2: Fetch Razorpay key from the backend (if dynamic)
-            const razorKeyResponse = await axios.get('http://localhost:8000/api/v1/payments/razorkey', {
+            const razorKeyResponse = await axios.get(`${apiBaseUrl}/payments/razorkey`, {
                 withCredentials: true
             });
             
@@ -83,7 +83,7 @@ const CourseFirst = () => {
                     console.log(response);
                     alert("This step of Payment Succeeded");
                     // Verify payment on the server-side
-                    axios.post(`http://localhost:8000/api/v1/payments/payment-verification/${coursebyId}`, {
+                    axios.post(`${apiBaseUrl}/payments/payment-verification/${coursebyId}`, {
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_signature: response.razorpay_signature
