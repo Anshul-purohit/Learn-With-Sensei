@@ -37,14 +37,14 @@ const Signup = () => {
             navigate('/Verify');
         })
         .catch(function (error) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(error.response.data, 'text/html');
-            const pre = doc.querySelector('pre');
-            let errorMessage = "An unknown error occurred"
-            if (pre) {
-                errorMessage = pre.textContent.split('at /')[0].trim();
-            } 
-            toast.error(errorMessage);
+            // const parser = new DOMParser();
+            // const doc = parser.parseFromString(error.response.data, 'text/html');
+            // const pre = doc.querySelector('pre');
+            // let errorMessage = "An unknown error occurred"
+            // if (pre) {
+            //     errorMessage = pre.textContent.split('at /')[0].trim();
+            // } 
+            toast.error(error.response.data.message);
         });
     };
     

@@ -37,7 +37,7 @@ const UpdateVideo = () => {
             }, 2000);
         } catch (error) {
             console.error(error);
-            toast.error("Failed to update video.");
+            toast.error(error.response.data.message);
         }
     }
 
