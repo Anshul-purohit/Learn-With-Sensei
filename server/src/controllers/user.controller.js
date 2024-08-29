@@ -27,33 +27,32 @@ const check = asyncHandler(async (req,res)=>{
             res.redirect("api/v1/users/profile")
         
 })
-const registerUser = asyncHandler(async (req,res)=>{
-   
+const registerUser = asyncHandler(async (req,res,next)=>{
     const {fullName, email, username, password} = req.body;
     if(!fullName){
-        throw new ApiError(400,"fullName the fields are Required")
+        return next( new ApiError(400,"fullName the fields are Required"))
     }
     if(!password || password.length<6){
-       throw new ApiError(400,"password required and password should be at least 6 characters")
+       return next(new ApiError(400,"password required and password should be at least 6 characters"))
      }
 
      if(!username){
-        throw new ApiError(400,"username fields are Required")
+        return next( new ApiError(400,"username fields are Required"))
      }
      
      if(!email){
-        throw new ApiError(400,"email fields are Required")
+        return next(new ApiError(400,"email fields are Required"))
      }
     // verify email format 
     if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-       throw new ApiError(400,"Please provide a valid email")
+        return next(new ApiError(400,"Please provide a valid email"))
     }
      const existedUser = await AuthUser.findOne({
         $or: [{ username }, { email }]
     })
 
     if (existedUser) {
-        throw new ApiError(400, 'User already exists');
+       return next(new ApiError(400, 'User already exists'));
     }
     //  Check if req.files and req.files.avatar exist
     // console.log(req);
@@ -65,16 +64,16 @@ const registerUser = asyncHandler(async (req,res)=>{
 if (req.files && req.files.avatar && req.files.avatar.length > 0) {
     avatarLocalPath = req.files.avatar[0].path;
 } else {
-    throw new ApiError(400, 'Please provide an avatar');
+   return next(new ApiError(400, 'Please provide an avatar'));
 }
     if (!avatarLocalPath) {
-        throw new ApiError(400, 'Please provide an avatar');
+       return next(new ApiError(400, 'Please provide an avatar'));
     }
 
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
     if(!avatar){
-        throw new ApiError(400,"Error while uploading avatar")
+       return next(new ApiError(400,"Error while uploading avatar"))
     }
 
      const hashedPassword = await hashPassword(password)
@@ -89,14 +88,14 @@ if (req.files && req.files.avatar && req.files.avatar.length > 0) {
 
     if(!user)
     {
-        throw new ApiError(400,"Error while creating user")
+        return next(new ApiError(400,"User not created"))
     }
     // send email
     const verifyToken = await user.getVerifyToken();
     await user.save();
 
 
-    // const verifyLink = `http://localhost:8000/users/verify-token/${verifyToken}`; // path of frontend page
+    // const verifyLink = `https://sensei-backend-bjr2.onrender.com/users/verify-token/${verifyToken}`; // path of frontend page
     const verifyLink = `http://localhost:5174/users/verify-token/${verifyToken}`; // URL of the frontend route
 
 
@@ -131,14 +130,14 @@ if (req.files && req.files.avatar && req.files.avatar.length > 0) {
 
     if(!mail_send)
     {
-        throw new ApiError(400,"Error while sending email")
+        return next(new ApiError(400,"Error while sending email"))
     }
 
     return res.status(201).json( new ApiResponse(201,"User Created Successfully and Verify Email Sent",user))
     // return res.json(user + "User Created Successfully and Verify Email Sent")
 }
 )
-const verifyToken = asyncHandler( async(req,res)=>{
+const verifyToken = asyncHandler( async(req,res,next)=>{
         const {token}=req.params;
         
         const verifyUserMailToken = crypto
@@ -154,12 +153,13 @@ const verifyToken = asyncHandler( async(req,res)=>{
         })
 
         if(!user){
-           throw new ApiError(400,"Invalid Token || Token Expired")
+            return next(new ApiError(401," Invalid Token || Token Expired"))
         }
         user.isVerified = true
         // make it null and delete it
         user.verifyUserMailToken = undefined
         user.verifyUserMailExpire = undefined
+
 
         // delete user.verifyUserMailToken && delete user.verifyUserMailExpire
         await user.save();
@@ -168,29 +168,29 @@ const verifyToken = asyncHandler( async(req,res)=>{
 
         
 })
-const loginUser = asyncHandler( async (req,res)=>{
+const loginUser = asyncHandler( async (req,res,next)=>{
 
     const {email, username, password} = req.body;
         if(!email)
        {
-       throw new ApiError(400,"Email is required")
+        return next( new ApiError(400,"Email is required"))
        }
 
        if(!password)
        {
-        throw new ApiError(400,"Password is required")
+        return next( new ApiError(400,"Password is required"))
        }
 
        if(!username)
        {
-       throw new ApiError(400,"Username is required")
+        return next( new ApiError(400,"username is required"))
        }
 
        const user = await AuthUser.findOne({
         $and: [{username}, {email}]
     })
        if(!user){
-        throw new ApiError(400,"No user found")
+        return next( new ApiError(400,"User not found"))
        }
 // check if password match stor cookie and set on background
        const match = await comparePassword(password,user.password)
@@ -212,18 +212,19 @@ const loginUser = asyncHandler( async (req,res)=>{
     
        if(!match)
        {
-        throw new ApiError(400,"Password does not match")
+       return next( new ApiError(400,"Password is incorrect"))
        }
        if(!user.isVerified)
        {
-        throw new ApiError(400,"Please verify your email")
+        return next( new ApiError(400,"Please verify your email"))
+        // throw new ApiError(400,"Please verify your email")
        }
        return res.status(200).json(new ApiResponse(200,"Login Successfully",user))
 
 
 })
 
-const logoutUser = asyncHandler( async (req,res)=>{
+const logoutUser = asyncHandler( async (req,res,next)=>{
 
     try {
         console.log("logout");
@@ -236,7 +237,7 @@ const logoutUser = asyncHandler( async (req,res)=>{
         console.log(error);
     }
 })
-const getprofile = asyncHandler(async (req,res)=>{
+const getprofile = asyncHandler(async (req,res,next)=>{
 
     try {
         // do not show password
@@ -248,34 +249,34 @@ const getprofile = asyncHandler(async (req,res)=>{
     }
 })
 
-const changeCurrentPassword = asyncHandler( async (req,res)=>{
+const changeCurrentPassword = asyncHandler( async (req,res,next)=>{
 
     
         const {oldPassword, newPassword} = req.body
         if(!oldPassword)
        {
-       throw new ApiError(400,"oldPassword is required")
+       return next( new ApiError(400,"oldPassword is required"))
        }
-       console.log("CC : ",typeof(newPassword.length))
+    //    console.log("CC : ",typeof(newPassword.length))
        if(!newPassword || newPassword.length<6)
        {
-        throw new ApiError(400,"newPassword must be more than 6 character long")
+        return next( new ApiError(400,"newPassword is required and should be at least 6 characters"))
        }
     //    console.log(typeof(oldPassword))
     //    console.log(typeof(newPassword))
        if(oldPassword === newPassword){
         // return res.send("Password should not be same")
-        throw new ApiError(400,"newPassword must be different from oldPassword")
+        return next( new ApiError(400,"newPassword should not be same as oldPassword"))
        } 
 
        const user = await AuthUser.findById(req.user)
        const checkoldpassword = await comparePassword(oldPassword,user.password)
        if(!checkoldpassword)
        {
-        throw new ApiError(400,"oldPassword is incorrect")
+        return next( new ApiError(400,"oldPassword is incorrect"))
        }
        if(newPassword.length < 6){
-        throw new ApiError(400,"newPassword should be at least 6 characters")
+        return next( new ApiError(400,"newPassword should be at least 6 characters"))
        }    
 
        const hashedPassword = await hashPassword(newPassword)
@@ -288,9 +289,9 @@ const changeCurrentPassword = asyncHandler( async (req,res)=>{
 
 })
 
-const updateAccountDetails = asyncHandler(async (req,res)=>{
+const updateAccountDetails = asyncHandler(async (req,res,next)=>{
 
-    try {
+   
         const {fullName, username, email} = req.body
         const user = await AuthUser.findById(req.user)
         user.fullName = fullName ?? user.fullName; // Use the new value or retain the old one if not provided
@@ -299,11 +300,9 @@ const updateAccountDetails = asyncHandler(async (req,res)=>{
     // user.gender = gender ?? user.gender;
         await user.save()
         res.status(200).json(new ApiResponse(200,"Account Details Updated Successfully",user))
-    } catch (error) {
-        console.log(error);
-    }
+   
 })
-const updateUserAvatar = asyncHandler( async (req,res)=>{
+const updateUserAvatar = asyncHandler( async (req,res,next)=>{
     
     
        
@@ -313,15 +312,15 @@ console.log(req.files);
 if (req.files && req.files.avatar && req.files.avatar.length > 0) {
     avatarLocalPath = req.files.avatar[0].path;
 } else {
-    throw new ApiError(400, 'Please provide an avatar');
+    return next(new ApiError(400, 'Please provide an avatar'));
 }
     if (!avatarLocalPath) {
-        throw new ApiError(400, 'Please provide an avatar');
+        return next(new ApiError(400, 'Please provide an avatar'));
     }
 
         const avatar = await uploadOnCloudinary(avatarLocalPath)
         if(!avatar){
-            throw new ApiError(400,"Error while uploading avatar")
+            return next(new ApiError(400,"Error while uploading avatar"))
         }
         const updatedUser = await AuthUser.findByIdAndUpdate(
             req.user, {
@@ -337,7 +336,7 @@ if (req.files && req.files.avatar && req.files.avatar.length > 0) {
    
 })
 
-const forgotPassword = asyncHandler( async (req,res)=>{
+const forgotPassword = asyncHandler( async (req,res,next)=>{
 // description of below code
 // send email to user with reset token and link to reset password
 // if user does not exist send error
@@ -347,12 +346,12 @@ const forgotPassword = asyncHandler( async (req,res)=>{
         const {email} = req.body
         if(!email)
        {
-       throw new ApiError(400,"email is required")
+       return next( new ApiError(400,"Email is required"))
        }
 
        const user = await AuthUser.findOne({email})
        if(!user){
-        throw new ApiError(400,"User does not exist")
+        return next( new ApiError(400,"User not found"))
        }
     //    console.log(email)
        const resetToken = await user.getResetToken();
@@ -395,7 +394,7 @@ const forgotPassword = asyncHandler( async (req,res)=>{
     }
 }
 )
-const resetPassword = asyncHandler( async (req,res)=>{
+const resetPassword = asyncHandler( async (req,res,next)=>{
 // description of below code
 // reset password , user will have to enter new password
 // it match with dataset and if match update password
@@ -405,14 +404,14 @@ const resetPassword = asyncHandler( async (req,res)=>{
         const {password,confirmPassword} = req.body
         const { token } = req.params;
         if(!password){
-            throw new ApiError(400,"password is required");
+            return next( new ApiError(400,"password is required"))
         }
         if(!confirmPassword){
-            throw new ApiError(400,"confirmPassword is required");
+            return next( new ApiError(400,"confirmPassword is required"))
         }
 
         if(password !== confirmPassword){
-           throw new ApiError(400,"password and confirmPassword does not match");
+            return next( new ApiError(400,"password and confirmPassword should be same"))
         }
 
         const resetPasswordToken = crypto
@@ -428,7 +427,7 @@ const resetPassword = asyncHandler( async (req,res)=>{
         });
     
         if(!user){
-            throw new ApiError(400,"Invalid or expired token");
+            return next( new ApiError(400,"Invalid or expired password reset token"))
         }
         const hashedPassword = await hashPassword(password)
         user.password = hashedPassword

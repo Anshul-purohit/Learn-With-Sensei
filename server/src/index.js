@@ -6,6 +6,7 @@ const app = express();
 const {mongoose} = require('mongoose');
 const razorpay = require("razorpay")
 const session = require('express-session');
+const errorHandler = require('./middleware/Error.middlewares.js')
 
 
 
@@ -63,6 +64,9 @@ app.use('/api/v1/likes',require('./routes/like.routes.js'))
 app.use('/api/v1/payments',require('./routes/payment.routes.js'))
 app.use('/api/v1/dashboard',require('./routes/dashboard.routes.js'))
 app.use('/api/v1/notes',require('./routes/notes.routes.js'))
+
+app.use(errorHandler)
+
 
 const port = process.env.PORT || 8000;
 app.listen(port,()=>console.log(`server is running on port ${port}`))

@@ -17,11 +17,11 @@ const instance = new razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET
   });
 
-const coursePayment = asyncHandler(async (req,res)=>{
+const coursePayment = asyncHandler(async (req,res,next)=>{
     const {fee,} = req.body
 
     if(!fee){
-        throw new ApiError(400,"fee is required")
+        return next(new ApiError(400,"fee is required"))
     }
 
     const options = {
@@ -35,26 +35,26 @@ const coursePayment = asyncHandler(async (req,res)=>{
 
 })
 
-const verifyPayment = asyncHandler(async (req,res)=>{
+const verifyPayment = asyncHandler(async (req,res,next)=>{
     const {razorpay_order_id,razorpay_payment_id,razorpay_signature} = req.body
     const studentID = req.user._id
 
     if(!razorpay_order_id || !razorpay_payment_id || !razorpay_signature){
-        throw new ApiError(400,"razorpay order id, razorpay payment id or razorpay signature is missing")
+        return next(new ApiError(400,"razorpay details are required"))
     }
     const {courseID} = req.params
 
     if(!courseID || !courseID.trim()){
-        throw new ApiError(400,"course id is required")
+       return next(new ApiError(400,"course id is required"))
     }
     console.log(courseID);
     const course = await Courses.findById(courseID)
     if(!course){
-        throw new ApiError(404,"course not found")
+        return next(new ApiError(404,"course not found"))
     }
     const user = await AuthUser.findById(studentID)
     if(!user){
-        throw new ApiError(404,"user not found")
+        return next(new ApiError(404,"user not found"))
     }
     const body = razorpay_order_id + "|" + razorpay_payment_id
     const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
@@ -75,7 +75,7 @@ const verifyPayment = asyncHandler(async (req,res)=>{
     }
     else
     {
-        throw new ApiError(400,"Payment verification failed")
+        return next(new ApiError(400,"Payment verification failed"))
     }
 })
 

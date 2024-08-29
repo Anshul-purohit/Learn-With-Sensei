@@ -5,13 +5,13 @@ const { ApiResponse } = require("../utils/ApiResponse");
 const { Like } = require("../models/like.model");
 
 
-const toggleVideoLike = asyncHandler(async (req, res) => {
+const toggleVideoLike = asyncHandler(async (req, res , next) => {
 
   const { videoId } = req.params;
   console.log("video id", videoId);
   // cheking if video is liked than do unlike else do like
   if(!videoId || !videoId.trim()){
-    throw new ApiError(400,"video id is required")
+    return next(new ApiError(400,"video id is required"))
   }
   const checkLike = await Like.find({ video: videoId, LikedBy: req.user._id });
   console.log(checkLike);
@@ -32,19 +32,19 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
     }
   }
 
-  throw new ApiError(500, "something went wrong");
+  return next (new ApiError(400, "something went wrong"));
 })
 
 
-const toggleCommentLike = asyncHandler(async (req, res) => {
+const toggleCommentLike = asyncHandler(async (req, res , next) => {
   const { commentId } = req.params;
-  console.log("comment id", commentId);
+  // console.log("comment id", commentId);
   // cheking if comment is liked than do unlike else do like and return total like count
   if(!commentId || !commentId.trim()){
-    throw new ApiError(400,"comment id is required")
+   return next (new ApiError(400,"comment id is required"))
   }
   const checkLike = await Like.find({ comment: commentId, LikedBy: req.user._id });
-  console.log(checkLike);
+  // console.log(checkLike);
   if (checkLike.length > 0) {
     const unlike = await Like.findOneAndDelete({ comment: commentId, LikedBy: req.user._id });
     const likes = await Like.countDocuments({comment:commentId})
@@ -63,14 +63,15 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
       return res.status(200).json(new ApiResponse(200, {like,likes}, "liked successfully"));
     }
   }
-  throw new ApiError(500, "something went wrong");
+
+  return next (new ApiError(400, "something went wrong"));
 
 })
 
-const getAllVideoLikes = asyncHandler(async (req, res) => {
+const getAllVideoLikes = asyncHandler(async (req, res, next) => {
   const { videoId} = req.params;
   if(!videoId || !videoId.trim()){
-    throw new ApiError(400,"video id is required")
+    return next(new ApiError(400,"video id is required"))
   }
   // count no of likes
   // const likes = await Like.find({video:videoId})
@@ -83,18 +84,19 @@ const getAllVideoLikes = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200,{videoLikesCount,videoLikedBy},""))
 })
 
-const getAllCommentLikes = asyncHandler(async (req, res) => {
+const getAllCommentLikes = asyncHandler(async (req, res, next) => {
   const { commentId} = req.params;
   if(!commentId || !commentId.trim()){
-    throw new ApiError(400,"comment id is required")
+    return next(new ApiError(400,"comment id is required"))
   }
   const likes = await Like.countDocuments({comment:commentId})
   return res.status(200).json(new ApiResponse(200,likes,""))
 })
-const userLikeComment = asyncHandler(async (req, res) => {
+
+const userLikeComment = asyncHandler(async (req, res, next) => {
   const { commentId } = req.params;
   if(!commentId || !commentId.trim()){
-    throw new ApiError(400,"comment id is required")
+    return next(new ApiError(400,"comment id is required"))
   }
   const checkLike = await Like.find({ comment: commentId, LikedBy: req.user._id });
   if (checkLike.length > 0) {
@@ -104,10 +106,10 @@ const userLikeComment = asyncHandler(async (req, res) => {
   }
 })
 
-const userLikeVideo = asyncHandler(async (req, res) => {
+const userLikeVideo = asyncHandler(async (req, res,next) => {
   const { videoId} = req.params;
   if(!videoId || !videoId.trim()){
-    throw new ApiError(400,"video id is required")
+    return next(new ApiError(400,"video id is required"))
   }
   const checkLike = await Like.find({ video: videoId, LikedBy: req.user._id });
   if (checkLike.length > 0) {

@@ -5,7 +5,7 @@ const ApiError = require("../utils/ApiError.js");
 const { Courses } = require("../models/courses.model");
 const { uploadOnCloudinary, deleteOnCloudinary } = require("../utils/cloudinary");
 
-const getAllVideos = asyncHandler(async (req,res)=>{
+const getAllVideos = asyncHandler(async (req,res,next)=>{
     const {  query, sortBy, sortType, userId } = req.query
     // http://localhost:8000/videos?page=1&limit=10&query=searchTerm&sortBy=createdAt&sortType=desc&userId=12345
 
@@ -46,16 +46,16 @@ const getAllVideos = asyncHandler(async (req,res)=>{
 
 })
 
-const publishAVideo = asyncHandler(async (req,res)=>{
+const publishAVideo = asyncHandler(async (req,res, next)=>{
     const {title,description} = req.body;
     
    if(!title || !description){
-       throw new ApiError(400,"Please provide title and description")
+       return next(new ApiError(400,"title and description are required"))
    }
     // checking for video or thumbnail path and return error if found any
     console.log(req.files)
     if(!req.files || !req.files.videoFile || !req.files.videoFile[0]){
-        throw new ApiError(400,"Please provide video")
+        return next(new ApiError(400,"Please provide a video file"))
     }
 
 
@@ -64,7 +64,7 @@ const publishAVideo = asyncHandler(async (req,res)=>{
    
     
     if (!videoFileLocalPath) {
-        throw new ApiError(400, 'Please provide a video file');
+       return next(new ApiError(400, 'Please provide a video file'));
     }
 
     // if (!thumbnailFileLocalPath) {
@@ -78,7 +78,7 @@ const publishAVideo = asyncHandler(async (req,res)=>{
     // const thumbnailFileType = thumbnailFileLocalPath.split(".").pop();
 
     if (videoFileType !== "mp4" && videoFileType !== "webm" && videoFileType !== "ogv" && videoFileType !== "mxf" && videoFileType !== "mpeg" && videoFileType !== "wmv") {
-        throw new ApiError(400, 'Please provide a valid video file');
+      return next (new ApiError(400, 'Please provide a valid video file'));
     }
     // if (thumbnailFileType !== "jpg" && thumbnailFileType !== "jpeg" && thumbnailFileType !== "png") {
     //     throw new ApiError(400, 'Please provide a valid thumbnail file');
@@ -88,7 +88,7 @@ const publishAVideo = asyncHandler(async (req,res)=>{
     // const thumbnail = await uploadOnCloudinary(thumbnailFileLocalPath);
 
     if(!videoFile){
-        throw new ApiError(400,"Error while uploading video")
+       return next (new ApiError(500,"Something went wrong while uploading video"))
     }
 
     const video = await Video.create({
@@ -109,14 +109,14 @@ const publishAVideo = asyncHandler(async (req,res)=>{
         // delete video from cloudinary
         await deleteOnCloudinary(videoFile.url);
         // await deleteOnCloudinary(thumbnail.url);
-        throw new ApiError(500,"Something went wrong while creating video")
+        return next(new ApiError(500,"Something went wrong while creating video"))
     }
 
     // return res.status(201).json(new ApiResponse(200,createdVideo,"Video created successfully"))
     let { courseId} = req.params
 
     if (!courseId || !courseId.trim()) {
-        throw new ApiError(400, "course id is required")
+        return next(new ApiError(400, "course id is required"))
     }   
 
     // if (!videoId || !videoId.trim()) {
@@ -135,17 +135,17 @@ const publishAVideo = asyncHandler(async (req,res)=>{
     );
 
     if (!course) {
-        throw new ApiError(404, "Course not found")
+       return next(new ApiError(404, "Course not found"))
     }
     return res.status(200).json(new ApiResponse(200, course, "Video added to course successfully")) 
 })
 
-const getVideoById = asyncHandler(async (req,res)=>{
+const getVideoById = asyncHandler(async (req,res,next)=>{
 
     const {videoId} = req.params
 
     if(!videoId || !videoId.trim()){
-        throw new ApiError(400,"video id is required")
+        return next(new ApiError(400,"video id is required"))
     }
     const findVideo = await Video.findByIdAndUpdate(
         videoId,
@@ -154,25 +154,25 @@ const getVideoById = asyncHandler(async (req,res)=>{
         );
 
     if(!findVideo){
-        throw new ApiError(404,"video Not found");
+        return next(new ApiError(404,"video not found"))
     }
 
     return res.status(220).json(new ApiResponse(220,findVideo,""))
 })
 
-const updateVideo = asyncHandler(async (req,res)=>{
+const updateVideo = asyncHandler(async (req,res,next)=>{
     const { videoId } = req.params;
 const { title, description } = req.body;
 
 if (!videoId || !videoId.trim()) {
-    throw new ApiError(400, "Video ID is required");
+    return next(new ApiError(400, "Video ID is required"));
 }
 
 // Fetch the existing video document
 const existingVideo = await Video.findById(videoId);
 
 if (!existingVideo) {
-    throw new ApiError(404, "Video not found");
+    return next(new ApiError(404, "Video not found"));
 }
 
 // Conditional update for title and description
@@ -205,7 +205,7 @@ const video = await Video.findByIdAndUpdate(
 );
 
 if (!video) {
-    throw new ApiError(500, "Failed to update video");
+    return next(new ApiError(500, "Something went wrong while updating video"));    
 }
 
 
@@ -213,18 +213,18 @@ return res.status(200).json(new ApiResponse(200, video, "Video updated successfu
 
 });
 
-const deleteVideo = asyncHandler(async (req,res)=>{
+const deleteVideo = asyncHandler(async (req,res,next)=>{
     const {videoId,courseId} = req.params
 
     if(!videoId || !videoId.trim()){
-        throw new ApiError(400,"video id is required")
+        return next (new ApiError(400,"video id is required"))
     }
     if(!courseId || !courseId.trim()){
-        throw new ApiError(400,"Course id is required")
+        return next (new ApiError(400,"course id is required"))
     }
    const checkVideo = await Video.findById(videoId)
    if(!checkVideo){
-    throw new ApiError(404,"video not found")
+       return next(new ApiError(404,"video not found"))
    }
 
    const vid = await deleteOnCloudinary(checkVideo.videoFile)
@@ -241,10 +241,10 @@ const deleteVideo = asyncHandler(async (req,res)=>{
     )
     
     if(!delvid){
-        throw new ApiError(500,"Something went wrong while deleting video")
+        return next(new ApiError(500,"Something went wrong while deleting video"))
     }
     if(!delfromPlaylist){
-        throw new ApiError(500,"Something went wrong while deleting video from playlist")
+        return next(new ApiError(500,"Something went wrong while deleting video from playlist"))
     }
     return res.status(200).json(new ApiResponse(200,delvid,"Video deleted successfully"))
 
@@ -252,7 +252,7 @@ const deleteVideo = asyncHandler(async (req,res)=>{
 
 })
 
-const togglePublishStatus = asyncHandler(async (req, res) => {
+const togglePublishStatus = asyncHandler(async (req, res, next) => {
     const { videoId } = req.params;
 
 
@@ -260,7 +260,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     const currentVideo = await Video.findById(videoId);
 
     if (!currentVideo) {
-        throw new ApiError(404, "Video not found");
+        return next (new ApiError(404, "Video not found"));
     }
 
     // Invert the isPublished field
