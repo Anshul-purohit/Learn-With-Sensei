@@ -64,7 +64,7 @@ app.use('/api/v1/likes',require('./routes/like.routes.js'))
 app.use('/api/v1/payments',require('./routes/payment.routes.js'))
 app.use('/api/v1/dashboard',require('./routes/dashboard.routes.js'))
 app.use('/api/v1/notes',require('./routes/notes.routes.js'))
-app.use('/api/v1/check',require('./routes/check.routes.js'))
+app.use('/api/v1/checkBox',require('./routes/check.routes.js'))
 
 app.use(errorHandler)
 
