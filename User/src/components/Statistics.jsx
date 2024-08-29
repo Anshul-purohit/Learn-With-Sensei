@@ -1,7 +1,6 @@
 // import React from 'react';
 import { useEffect, useState } from 'react';
 import GirlImg from '../assets/girl-image.jpg';
-import { useTheme } from './ThemeContext';
 import axios from 'axios';
 import { useShared } from '../SharedContext';
 
@@ -35,7 +34,7 @@ const Statistics = () => {
     });
   },[])
 
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useShared();
   return (
     <>
       <div className={`w-full flex flex-col items-center justify-center text-left ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} py-8`}>

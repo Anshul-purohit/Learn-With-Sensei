@@ -1,10 +1,10 @@
 import image from '../assets/image.png';
+import { useShared } from '../SharedContext';
 import CategoryCard from './CategoryCard';
 import Statistics from './Statistics';
-import { useTheme } from './ThemeContext';
 
 const Body = () => {
-    const { isDarkMode } = useTheme();
+    const { isDarkMode } = useShared();
 
 
     return (

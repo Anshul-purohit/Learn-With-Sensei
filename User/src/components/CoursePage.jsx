@@ -11,12 +11,11 @@ import { ThumbUpIcon as ThumbUpSolid } from '@heroicons/react/solid';
 import { useShared } from '../SharedContext';
 import ConfettiExplosion from 'react-confetti-explosion';
 import Modal from 'react-modal';
-import {useTheme} from './ThemeContext';
 import CoursePageShimmer from './Shimmer/CoursePageShimmer';
 
 const CoursePage = () => {
     const [loading, setLoading] = useState(true);
-    const { isDarkMode } = useTheme();
+    const { isDarkMode } = useShared();
     const { coursebyId } = useParams();
     const navigate = useNavigate();
     const [course, setCourse] = useState(null);

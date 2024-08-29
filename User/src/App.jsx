@@ -14,7 +14,6 @@ import { useShared } from './SharedContext';
 import EditProfile from "./components/EditProfile";
 import Courses from "./components/Courses";
 import CoursePage from "./components/CoursePage";
-import ThemeProvider from "./components/ThemeContext";
 import Verify from "./components/Verify";
 import VerifyEmail from "./components/VerifyEmail";
 import CourseFirst from "./components/CourseFirst";
@@ -29,17 +28,21 @@ const App = () => {
 
   useEffect(() => {
     if (isAuthenticated && (location.pathname === '/Login' || location.pathname === '/Signup')) {
-      console.log("xx : ",isAuthenticated)
+      console.log("xx : ", isAuthenticated);
       navigate('/');
     }
   }, [isAuthenticated, location, navigate]);
 
-  const showHeaderFooter = !["/Login", "/Signup"].includes(location.pathname);
+  // Adjusted condition for footer visibility
+  const hideFooter = location.pathname.startsWith("/Course/") && 
+                      !location.pathname.includes("/Course/allcourses") && 
+                      !location.pathname.includes("/Course/usercourses") && 
+                      !location.pathname.includes("/Course/coursefirst/");
+  const hideHeader = ["/Login", "/Signup"].includes(location.pathname);
 
   return (
-    <ThemeProvider>
-        <div className="body-container">
-        {showHeaderFooter && <Header />}
+      <div className="body-container">
+        {!hideHeader && <Header />}
         <Routes>
           <Route path="/" element={<Body />} />
           <Route path="/Profile" element={<Profile />} />
@@ -54,9 +57,8 @@ const App = () => {
           <Route path="/About" element={<About />} />
           <Route path="/users/verify-token/:token" element={<VerifyEmail />} />
         </Routes>
-        {showHeaderFooter && <Footer />}
+        {!hideFooter && <Footer />}
       </div>
-    </ThemeProvider>
   );
 };
 
@@ -69,3 +71,5 @@ const RootApp = () => (
 );
 
 export default RootApp;
+
+

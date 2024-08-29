@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
-import { useTheme } from './ThemeContext';
 import axios from 'axios';
 import CoursesShimmer from './Shimmer/CoursesShimmer';
 import { useShared } from '../SharedContext';
 
 const Courses = () => {
-    const {isDarkMode} = useTheme();
+    const {isDarkMode} = useShared();
     const navigate = useNavigate();
     const [courses,setCourses] = useState([])
     const [loading , setLoading] = useState(true);

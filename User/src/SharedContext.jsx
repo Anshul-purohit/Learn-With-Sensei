@@ -11,10 +11,23 @@ export const SharedProvider = ({ children }) => {
   const [email, setEmail] = useState(null);
   const [userid, setUserid] = useState(null);
 
-  const apiBaseUrl = 'http://localhost:8000/api/v1'; // Your API base URL
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = Cookies.get('isDarkMode');
+    return savedTheme ? JSON.parse(savedTheme) : false;
+  });
+
+  const apiBaseUrl = 'http://localhost:8000/api/v1'; 
 
   const handleToggleOpen = () => {
     setIsToggleOpen(!isToggleOpen);
+  };
+
+  const toggleTheme = () => {
+    setIsDarkMode(prevMode => {
+      const newMode = !prevMode;
+      Cookies.set('isDarkMode', newMode, { expires: 365 }); 
+      return newMode;
+    });
   };
 
   const login = (uname, fname, mail, id) => {
@@ -72,7 +85,9 @@ export const SharedProvider = ({ children }) => {
       logout,
       setUsername,
       setFullname,
-      apiBaseUrl // Provide the API base URL
+      apiBaseUrl, 
+      isDarkMode,  
+      toggleTheme  
     }}>
       {children}
     </SharedContext.Provider>

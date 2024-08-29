@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useTheme } from './ThemeContext'; 
 import { useShared } from '../SharedContext';
 import axios from 'axios';
 import {  toast } from "react-toastify";
 
 const Notes = ({ vidId }) => {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useShared();
   const [note, setNote] = useState('');
   const { userid } = useShared();
   const {apiBaseUrl} = useShared()

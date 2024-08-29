@@ -5,12 +5,11 @@ import { Link,useNavigate } from 'react-router-dom';
 // import Cards from './Cards';
 import {ToastContainer,toast} from "react-toastify"
 import { useShared } from '../SharedContext';
-import { useTheme } from './ThemeContext';
 import ProfileShimmer from './Shimmer/ProfileShimmer';
 import Cookies from "js-cookie"
 
 const Profile = () => {
-  const {isDarkMode} = useTheme();
+  const {isDarkMode} = useShared();
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const { logout } = useShared();
