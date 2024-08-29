@@ -42,7 +42,7 @@ const EditProfile = () => {
             toast.success("Changes done successfully!");
         })
         .catch(error => {
-            toast.error("Failed to update account details.");
+            toast.error(error.response.data.message);
         });
     };
 
@@ -57,8 +57,7 @@ const EditProfile = () => {
             toast.success("Password changed successfully!");
         })
         .catch(error => {
-            console.log(error)
-            toast.error("Failed to change password.");
+            toast.error(error.response.data.message);
         });
     };
 
@@ -83,7 +82,7 @@ const EditProfile = () => {
             toast.success("Avatar changed successfully!");
         })
         .catch(error => {
-            toast.error("Failed to change avatar.");
+            toast.error(error.response.data.message);
         })
         .finally(() => {
             setAvatarLoading(false); // Stop loading spinner

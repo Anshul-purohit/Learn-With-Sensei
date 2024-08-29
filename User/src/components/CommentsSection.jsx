@@ -75,16 +75,8 @@ const CommentsSection = ({ videoId }) => {
             setNewComment('');
             getComments();
         })
-        .catch(function (error) {
-            console.log(error);
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(error.response.data, 'text/html');
-            const pre = doc.querySelector('pre');
-            let errorMessage = "An unknown error occurred";
-            if (pre) {
-                errorMessage = pre.textContent.split('at /')[0].trim();
-            } 
-            toast.error(errorMessage);
+        .catch(function (error){
+            toast.error(error.response.data.message);
         });
     }
 
@@ -104,15 +96,7 @@ const CommentsSection = ({ videoId }) => {
             getComments();
         })
         .catch(function (error) {
-            console.log(error);
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(error.response.data, 'text/html');
-            const pre = doc.querySelector('pre');
-            let errorMessage = "An unknown error occurred";
-            if (pre) {
-                errorMessage = pre.textContent.split('at /')[0].trim();
-            } 
-            toast.error(errorMessage);
+            toast.error(error.response.data.message);
         });
     }
 
@@ -125,7 +109,7 @@ const CommentsSection = ({ videoId }) => {
             getComments();
         })
         .catch(function (error) {
-            console.log(error);
+            toast.error(error.response.data.message)
         });
     }
 
