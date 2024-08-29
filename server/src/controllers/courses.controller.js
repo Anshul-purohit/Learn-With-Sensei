@@ -9,7 +9,7 @@ const { uploadOnCloudinary, deleteOnCloudinary } = require("../utils/cloudinary"
 const { Payment } = require("../models/payment.model");
 
 
-const getAllCourses = asyncHandler(async (req, res) => {
+const getAllCourses = asyncHandler(async (req, res, next) => {
     // Extract query parameters with default values
     const { query, sortBy, sortType, userId } = req.query;
     // console.log(req.query);
@@ -48,7 +48,7 @@ const getAllCourses = asyncHandler(async (req, res) => {
         console.log(courses);
         // If no courses are found, throw an error
         if (!courses || courses.length === 0) {
-            throw new ApiError(404, "No courses found");
+            return next( new ApiError(404, "No courses found"));
         }
         // Return the response
         return res.status(200).json(new ApiResponse(200, courses, "Courses fetched successfully"));
@@ -58,27 +58,27 @@ const getAllCourses = asyncHandler(async (req, res) => {
     }
 });
 
-const createCourse = asyncHandler(async (req, res) => {
+const createCourse = asyncHandler(async (req, res,next) => {
     const { name, description ,category } = req.body;
     if (!name || !description || !category) {
-        throw new ApiError(400, "fill all the required fields");
+        return next( new ApiError(400, "fill all the required fields"));
     }
     let avatarLocalPath;
 
 if (req.files && req.files.thumbnail && req.files.thumbnail.length > 0) {
     avatarLocalPath = req.files.thumbnail[0].path;
 } else {
-    throw new ApiError(400, 'Please provide Thumbnail');
+    return next( new ApiError(400, 'Please provide Thumbnail'));
 }
     if (!avatarLocalPath) {
-        throw new ApiError(400, 'Please provide Thumbnail');
+        return next( new ApiError(400, 'Please provide Thumbnail'));
     }
 
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
     console.log(avatar);
     if(!avatar){
-        throw new ApiError(400,"Error while uploading thumbnail")
+        return next( new ApiError(400,"Error while uploading thumbnail"))
     }
 
     const course = await Courses.create({
@@ -92,18 +92,18 @@ if (req.files && req.files.thumbnail && req.files.thumbnail.length > 0) {
 
 
     if (!course) {
-        throw new ApiError(400, "Something went wrong while creating course")
+        return next( new ApiError(400, "Something went wrong while creating course"))
     }
     return res.status(201).json(new ApiResponse(201, course, "Course created successfully"))
 
 })
 
-const getUserCourses = asyncHandler(async (req, res) => {
+const getUserCourses = asyncHandler(async (req, res,next) => {
 
     const { userId } = req.params
 
     if (!userId || !userId.trim()) {
-        throw new ApiError(400, "user id is required")
+        return next(new ApiError(400, "user id is required"))
     }
     
     const courses = await Payment.aggregate([
@@ -132,24 +132,24 @@ const getUserCourses = asyncHandler(async (req, res) => {
         
 
     if (!courses) {
-        throw new ApiError(404, "No courses found")
+        return next( new ApiError(404, "No courses found"))
     }
     return res.status(200).json(new ApiResponse(200, courses, "Courses fetched successfully"))
 
 }
 )
 
-const getCourseById = asyncHandler(async (req, res) => {
+const getCourseById = asyncHandler(async (req, res,next) => {
 
     const { courseId } = req.params
 
     if (!courseId || !courseId.trim()) {
-        throw new ApiError(400, "course id is required")
+        return next( new ApiError(400, "course id is required"))
     }
     const Checkcourse = await Courses.findById(courseId)
 
     if (!Checkcourse) {
-        throw new ApiError(404, "Course not found")
+        return next( new ApiError(404, "Course not found"))
     }
     // The final result of this aggregation operation will be a Playlist document containing an array videos, where each video object includes enriched details of its owner from the users collection. This structure allows you to fetch detailed information about each video, including its owner's full name, creation date, and avatar.
     const course = await Courses.aggregate([
@@ -209,7 +209,7 @@ const getCourseById = asyncHandler(async (req, res) => {
     ]);
 
     if (!course) {
-        throw new ApiError(404, "Course not found")
+        return next( new ApiError(404, "Course not found"))
     }
     // return userid who bought this course
     const users = await Payment.find({courseID:courseId})
@@ -224,15 +224,15 @@ const getCourseById = asyncHandler(async (req, res) => {
 
 })
 
-const addVideoToCourse = asyncHandler(async (req, res) => {
+const addVideoToCourse = asyncHandler(async (req, res,next) => {
     let { courseId , videoId } = req.params
 
     if (!courseId || !courseId.trim()) {
-        throw new ApiError(400, "course id is required")
+        return next( new ApiError(400, "course id is required"))
     }   
 
     if (!videoId || !videoId.trim()) {
-        throw new ApiError(400, "video id is required")
+        return next( new ApiError(400, "video id is required"))
     }   
     courseId = courseId.trim();
     videoId = videoId.trim();
@@ -247,20 +247,20 @@ const addVideoToCourse = asyncHandler(async (req, res) => {
     );
 
     if (!course) {
-        throw new ApiError(404, "Course not found")
+        return next( new ApiError(404, "Course not found"))
     }
     return res.status(200).json(new ApiResponse(200, course, "Video added to course successfully")) 
 })
 
-const removeVideoFromCourse = asyncHandler(async (req, res) => {
+const removeVideoFromCourse = asyncHandler(async (req, res, next) => {
 
     let { courseId , videoId } = req.params
     if (!courseId || !courseId.trim()) {
-        throw new ApiError(400, "course id is required")
+        return next( new ApiError(400, "course id is required"))
     }   
 
     if (!videoId || !videoId.trim()) {
-        throw new ApiError(400, "video id is required")
+        return next( new ApiError(400, "video id is required"))
     }   
     courseId = courseId.trim();
     videoId = videoId.trim();
@@ -275,45 +275,45 @@ const removeVideoFromCourse = asyncHandler(async (req, res) => {
     );
 
     if (!course) {
-        throw new ApiError(404, "Course not found")
+        return next( new ApiError(404, "Course not found"))
     }
     return res.status(200).json(new ApiResponse(200, course, "Video removed from course successfully"))
 })
 
-const deleteCourse = asyncHandler(async (req, res) => {
+const deleteCourse = asyncHandler(async (req, res, next) => {
 
     const { courseId } = req.params
     if (!courseId || !courseId.trim()) {
-        throw new ApiError(400, "course id is required")
+        return next( new ApiError(400, "course id is required"))
     }
     const course = await Courses.findByIdAndDelete(courseId)
     if (!course) {
-        throw new ApiError(404, "Course not found")
+        return next( new ApiError(404, "Course not found"))
     }
 
     // delete thumbnail from cloudinary
    const thumb = await deleteOnCloudinary(course.thumbnail)
 
     if (!thumb) {
-        throw new ApiError(400, "Something went wrong while deleting thumbnail");
+        return next( new ApiError(400, "Something went wrong while deleting thumbnail"));
     }
     
     return res.status(200).json(new ApiResponse(200, course, "Course deleted successfully"))
 })
 
-const updateCourse = asyncHandler(async (req, res) => {
+const updateCourse = asyncHandler(async (req, res, next) => {
 
     const { courseId } = req.params
     const { name, description } = req.body
     if (!courseId || !courseId.trim()) {
-        throw new ApiError(400, "course id is required")
+        return next( new ApiError(400, "course id is required"))
     }
 
      // conditional update for name and description
      const existingCourse = await Courses.findById(courseId)
 
     if (!existingCourse) {
-        throw new ApiError(404, "Course not found")
+        return next( new ApiError(404, "Course not found"))
     }
    const updatename = name || existingCourse.name
    const updatedescription = description || existingCourse.description
@@ -324,7 +324,7 @@ const thumbnailLocalPath = req.file?.path;
 if (thumbnailLocalPath) {
     const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
     if (!thumbnail.url) {
-        throw new ApiError(400, "Something went wrong while uploading thumbnail");
+        return next( new ApiError(400, "Something went wrong while uploading thumbnail"));
     }
     updatedThumbnail = thumbnail.url;
 }
@@ -341,7 +341,7 @@ const course = await Courses.findByIdAndUpdate(
 );
 
 if (!course) {
-    throw new ApiError(500, "Failed to update course");
+    return next( new ApiError(500, "Failed to update course"));
 }
 
     return res.status(200).json(new ApiResponse(200, course, "Course updated successfully"))

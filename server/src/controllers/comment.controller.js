@@ -90,17 +90,17 @@ const getVideoComments = asyncHandler(async (req,res)=>{
     return res.status(200).json(new ApiResponse(200,{commentCount,rootCommentsWithLikeCount},"Comments Fetched Successfully"));
         
 })
-const addReplyToComment = asyncHandler(async (req,res)=>{
+const addReplyToComment = asyncHandler(async (req,res,next)=>{
     const {commentId,videoId} = req.params
     const {content} = req.body;
     if(!commentId || !commentId.trim()){
-        throw new ApiError(400,"Comment Id is Required")
+        return next(new ApiError(400,"Comment Id is Required"))
     }
     if(!videoId || !videoId.trim()){
-        throw new ApiError(400,"Video Id is Required")
+        return  next(new ApiError(400,"Video Id is Required"))
     }
     if(!content){
-        throw new ApiError(400,"Content Field is Empty")
+        return  next(new ApiError(400,"Content Field is Empty"))
     }
     console.log(commentId);
     const parentComment = await Comment.findById(commentId)
@@ -121,7 +121,7 @@ const addReplyToComment = asyncHandler(async (req,res)=>{
         
     })
     if(!reply){
-        throw new ApiError(400,"Something went wrong while creating reply")
+        return next( new ApiError(400,"Something went wrong while creating reply"))
     }
     console.log(reply);
     const addReply = await Comment.findByIdAndUpdate(parentId,{
@@ -131,7 +131,7 @@ const addReplyToComment = asyncHandler(async (req,res)=>{
     })
     // console.log(addReply);
     if(!addReply){
-        throw new ApiError(400,"Something went wrong while adding reply")
+        return next (new ApiError(400,"Something went wrong while adding reply"))
     }
     return res.status(201).json(new ApiResponse(200,reply,"Reply Added Successfully"))
 })
@@ -140,10 +140,10 @@ const addComment = asyncHandler(async (req,res)=>{
     const {content} = req.body;
     console.log(content);
     if(!videoId || !videoId.trim()){
-        throw new ApiError(400,"Video Id is Required")
+        return next( new ApiError(400,"Video Id is Required"))
     }
     if(!content){
-        throw new ApiError(400,"Content Field is Empty")
+        return next( new ApiError(400,"Content Field is Empty"))
     }
 
     const comment = await Comment.create({
@@ -153,14 +153,14 @@ const addComment = asyncHandler(async (req,res)=>{
         parent:null
     })
     if(!comment){
-        throw new ApiError(400,"Something went wrong while creating comment")
+        return next ( new ApiError(400,"Something went wrong while creating comment"))
     }
     return res.status(201).json(new ApiResponse(200,comment,"Comment Added Successfully"))
 })
 const deleteComment = asyncHandler(async (req,res)=>{
     const {commentId} = req.params;
     if(!commentId || !commentId.trim()){
-        throw new ApiError(400,"Comment Id is Required")
+        return next( new ApiError(400,"Comment Id is Required"))
     }
     // // if user is not owner of comment then not allowed
     // const comment = await Comment.findById(commentId);
@@ -175,7 +175,7 @@ const deleteComment = asyncHandler(async (req,res)=>{
     // delete comment and all the comments in replies array of that comment
     const comment = await Comment.findByIdAndDelete(commentId);
     if(!comment){
-        throw new ApiError(400,"Comment not found or error while deleting")
+        return next( new ApiError(400,"Comment not found or error while deleting"))
     }
     await Comment.deleteMany({parent:commentId})
 
