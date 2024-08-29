@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useShared } from '../SharedContext';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../ThemeContext';
+import { useTheme } from './ThemeContext';
 import Cookies from 'js-cookie';
 
 const Login = () => {

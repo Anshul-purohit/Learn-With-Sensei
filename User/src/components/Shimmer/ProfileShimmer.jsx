@@ -1,4 +1,4 @@
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../ThemeContext";
 import './styleShimmer.css';
 
 const ProfileShimmer = () => {

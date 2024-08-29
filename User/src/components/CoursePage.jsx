@@ -11,7 +11,7 @@ import { ThumbUpIcon as ThumbUpSolid } from '@heroicons/react/solid';
 import { useShared } from '../SharedContext';
 import ConfettiExplosion from 'react-confetti-explosion';
 import Modal from 'react-modal';
-import {useTheme} from '../ThemeContext';
+import {useTheme} from './ThemeContext';
 import CoursePageShimmer from './Shimmer/CoursePageShimmer';
 
 const CoursePage = () => {

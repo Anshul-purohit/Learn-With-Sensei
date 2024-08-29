@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Import the CSS for styling
 import { useShared } from "../SharedContext";
-import { useTheme } from '../ThemeContext'; 
+import { useTheme } from './ThemeContext'; 
 import EditProfileShimmer from "./Shimmer/EditProfileShimmer";
 
 // Simple spinner component

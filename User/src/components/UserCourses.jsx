@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../ThemeContext';
+import { useTheme } from './ThemeContext';
 import { useShared } from '../SharedContext';
 import axios from 'axios';
 import CoursesShimmer from './Shimmer/CoursesShimmer';

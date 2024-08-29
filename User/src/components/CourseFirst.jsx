@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShared } from '../SharedContext';
-import { useTheme } from '../ThemeContext';
+import { useTheme } from './ThemeContext';
 
 const CourseFirst = () => {
     const {isDarkMode} = useTheme();

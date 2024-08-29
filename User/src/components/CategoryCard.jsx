@@ -1,7 +1,7 @@
 // import React from 'react';
 // import { Link } from 'react-router-dom';
 import { FaLaptopCode, FaDatabase, FaCogs, FaProjectDiagram, FaBrain, FaRobot, FaMobileAlt, FaPalette } from 'react-icons/fa';
-import { useTheme } from '../ThemeContext'; // Import the theme context
+import { useTheme } from './ThemeContext'; // Import the theme context
 
 
 const categories = [

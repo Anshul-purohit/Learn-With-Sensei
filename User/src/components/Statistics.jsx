@@ -1,7 +1,7 @@
 // import React from 'react';
 import { useEffect, useState } from 'react';
 import GirlImg from '../assets/girl-image.jpg';
-import { useTheme } from '../ThemeContext';
+import { useTheme } from './ThemeContext';
 import axios from 'axios';
 import { useShared } from '../SharedContext';
 
