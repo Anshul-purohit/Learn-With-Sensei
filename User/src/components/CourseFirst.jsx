@@ -91,6 +91,7 @@ const CourseFirst = () => {
                         withCredentials: true
                     }).then((verifyResponse) => {
                         console.log("Payment verified", verifyResponse.data);
+                        navigate(`/Course/usercourses`)
                     }).catch((error) => {
                         console.log("Error in payment verification:", error);
                     });

@@ -1,15 +1,38 @@
 // import React from 'react';
+import { useEffect, useState } from 'react';
 import GirlImg from '../assets/girl-image.jpg';
 import { useTheme } from './ThemeContext';
-
-const statisticsData = [
-  { id: 1, label: 'Students Joined', value: '1,200' },
-  { id: 2, label: 'Courses Available', value: '150' },
-  { id: 3, label: 'Instructors', value: '30' },
-  { id: 4, label: 'Certifications', value: '500+' },
-];
+import axios from 'axios';
 
 const Statistics = () => {
+
+  const [students,setStudents] = useState(0);
+  const [courses,setCourses] = useState(0);
+  const [instructors,setInstructors] = useState(0);
+  const [category,setCategory] = useState(0);
+
+  const statisticsData = [
+    { id: 1, label: 'Students Joined', value: students },
+    { id: 2, label: 'Courses Available', value: courses },
+    { id: 3, label: 'Instructors', value: '30' },
+    { id: 4, label: 'Category', value: category },
+  ];
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/v1/dashboard', {
+        withCredentials: true
+    })
+    .then(function (response) {
+        console.log(response.data.data);
+        setStudents(response.data.data.totalUsers)
+        setCourses(response.data.data.totalCourses)
+        setCategory(response.data.data.totalVideoCategory.length)
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+  },[])
+
   const { isDarkMode } = useTheme();
   return (
     <>
@@ -58,43 +81,6 @@ const Statistics = () => {
                 <li className="mb-2">24/7 access to course materials and resources.</li>
               </ul>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Call to Action */}
-      <div className={`w-full ${isDarkMode ? 'bg-gray-900 text-gray-300' : 'bg-gray-100 text-gray-700'} py-12 px-4 flex flex-col items-center`}>
-        <div className="max-w-screen-lg text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4">Unlock Your Potential with Our Courses!</h2>
-          <p className="text-lg mb-6">Join our platform to get access to world-class education and take your skills to the next level.</p>
-          <a href="/signup" className={`bg-yellow-400 ${isDarkMode ? 'dark:bg-yellow-500 text-teal-800 dark:text-teal-800 hover:bg-yellow-300 dark:hover:bg-yellow-400' : 'text-teal-900 hover:bg-yellow-300'} font-semibold px-6 py-3 rounded-lg transition-colors duration-300`}>
-            Get Started
-          </a>
-        </div>
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:flex-row items-center justify-center gap-8">
-          {/* Feature 1 */}
-          <div className={` ${isDarkMode ? 'bg-gray-700' : 'bg-white'} text-teal-800 ${isDarkMode ? 'text-teal-400' : ''} p-6 rounded-lg shadow-lg flex flex-col items-center`}>
-            <svg className="w-12 h-12 mb-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 2a8 8 0 11-8 8 8 8 0 018-8zM9 5.586V9a1 1 0 001 1h2.414l-2.707 2.707a1 1 0 001.414 1.414l4-4a1 1 0 000-1.414l-4-4a1 1 0 00-1.414 1.414L11.414 8H9a1 1 0 00-1 1z" />
-            </svg>
-            <h3 className="text-xl font-semibold mb-2">Flexible Learning</h3>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Learn at your own pace with 24/7 access to all course materials.</p>
-          </div>
-          {/* Feature 2 */}
-          <div className={`${isDarkMode ? 'bg-gray-700' : 'bg-white '} text-teal-800 ${isDarkMode ? 'text-teal-400' : ''} p-6 rounded-lg shadow-lg flex flex-col items-center`}>
-            <svg className="w-12 h-12 mb-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 4a6 6 0 00-6 6 6 6 0 006 6 6 6 0 006-6 6 6 0 00-6-6zM2 10a8 8 0 1116 0 8 8 0 01-16 0zm2.12-.12a1 1 0 00-1.41 1.41l1.58 1.58L6 10l-1.29-1.29a1 1 0 00-1.41 1.41L6 12l-1.88-1.88z" />
-            </svg>
-            <h3 className="text-xl font-semibold mb-2">Expert Instructors</h3>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Learn from industry experts with years of experience and practical knowledge.</p>
-          </div>
-          {/* Feature 3 */}
-          <div className={` ${isDarkMode ? 'bg-gray-700' : 'bg-white '} text-teal-800 ${isDarkMode ? 'text-teal-400' : ''} p-6 rounded-lg shadow-lg flex flex-col items-center`}>
-            <svg className="w-12 h-12 mb-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 5V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2H6a1 1 0 00-1 1v8a1 1 0 001 1h2v1a1 1 0 001 1h2a1 1 0 001-1v-1h2a1 1 0 001-1V6a1 1 0 00-1-1h-2zM9 4h2v1H9V4zm1 8a2 2 0 110-4 2 2 0 010 4z" />
-            </svg>
-            <h3 className="text-xl font-semibold mb-2">Certified Courses</h3>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Receive industry-recognized certificates that enhance your resume and career prospects.</p>
           </div>
         </div>
       </div>

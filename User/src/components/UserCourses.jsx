@@ -19,6 +19,7 @@ const UserCourses = () => {
                 setCourses(response.data.data);
             } catch (error) {
                 console.error("Error fetching user:", error);
+                navigate('/Login');
             }
         };
 
