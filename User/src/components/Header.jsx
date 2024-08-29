@@ -93,7 +93,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="mr-3">
-              <Link to={"/about"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-32 rounded text-center`}>
+              <Link to={"/About"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-32 rounded text-center`}>
                 About
               </Link>
             </li>
