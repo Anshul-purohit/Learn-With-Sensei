@@ -19,6 +19,7 @@ import Verify from "./components/Verify";
 import VerifyEmail from "./components/VerifyEmail";
 import CourseFirst from "./components/CourseFirst";
 import UserCourses from "./components/UserCourses";
+import About from "./components/About";
 
 
 const App = () => {
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/Course/coursefirst/:coursebyId" element={<CourseFirst />} />
           <Route path="/Course/:coursebyId" element={<CoursePage />} />
           <Route path="/Verify" element={<Verify />} />
+          <Route path="/About" element={<About />} />
           <Route path="/users/verify-token/:token" element={<VerifyEmail />} />
         </Routes>
         {showHeaderFooter && <Footer />}
