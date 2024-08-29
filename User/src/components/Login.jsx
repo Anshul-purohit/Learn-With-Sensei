@@ -48,7 +48,7 @@ const Login = () => {
             navigate('/');                          //////////////////////////////////////////////// Made Changes ///////////////////
         })
         .catch(function (error) {
-            console.log(error);
+            console.log("DDD : ",error);
             const parser = new DOMParser();
             const doc = parser.parseFromString(error.response.data, 'text/html');
             const pre = doc.querySelector('pre');
