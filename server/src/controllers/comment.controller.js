@@ -5,7 +5,7 @@ const { Comment } = require("../models/comment.model");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { Like } = require("../models/like.model");
 
-const getVideoComments = asyncHandler(async (req,res)=>{
+const getVideoComments = asyncHandler(async (req,res,next)=>{
     // Fetch all comments for the video
     const { videoId } = req.params;
     const comments = await Comment.find({ video: videoId })
@@ -157,7 +157,7 @@ const addComment = asyncHandler(async (req,res)=>{
     }
     return res.status(201).json(new ApiResponse(200,comment,"Comment Added Successfully"))
 })
-const deleteComment = asyncHandler(async (req,res)=>{
+const deleteComment = asyncHandler(async (req,res,next)=>{
     const {commentId} = req.params;
     if(!commentId || !commentId.trim()){
         return next( new ApiError(400,"Comment Id is Required"))

@@ -7,7 +7,7 @@ const { AuthUser } = require("../models/user.model");
 const { Like } = require("../models/like.model");
 
 
-const getDashboardData = asyncHandler(async (req, res) => {
+const getDashboardData = asyncHandler(async (req, res,next) => {
    // total users , total courses , total video category
    const totalUsers = await AuthUser.countDocuments();
    const totalCourses = await Courses.countDocuments();
