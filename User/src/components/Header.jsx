@@ -109,7 +109,7 @@ const Header = () => {
                 </div>
                 {showProfileMenu && (
                   <div className={`absolute right-0 mt-2 w-48 ${isDarkMode ? 'bg-gray-700' : 'bg-white'} shadow-lg z-50`}>
-                    <Link to="/profile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>My Profile</Link>
+                    <Link to="/Profile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>My Profile</Link>
                     <Link to="/editprofile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>Edit Profile</Link>
                     <div className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'} cursor-pointer`} onClick={handleLogout}>Logout</div>
                   </div>
