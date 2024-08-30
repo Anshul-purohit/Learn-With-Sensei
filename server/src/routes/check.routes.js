@@ -5,11 +5,11 @@ const { toggleVideoCheck, courseCheckVideo  } = require('../controllers/check.co
 const auth = require('../middleware/auth.middlewares.js')
 
 // use auth middleware to protect routes   
-router.use(auth);
+// router.use(auth);
 
 
-router.route("/:courseId/:videoId").patch(toggleVideoCheck)
-router.route("/check/:courseId").get(courseCheckVideo) 
+router.route("/:courseId/:videoId").post(auth,toggleVideoCheck)
+router.route("/check/:courseId").get(auth,courseCheckVideo) 
 
 
 module.exports = router  

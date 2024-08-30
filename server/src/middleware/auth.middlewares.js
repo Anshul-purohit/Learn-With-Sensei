@@ -7,7 +7,7 @@ try {
     const token = req.cookies.access_token
     // console.log(token)
     if(!token){
-        return res.status(401).send("Not Authenticated or not authorized user")
+        return res.status(401).send("Not Authenticated or not authorized userr")
        }
     const verifyUser = jwt.verify(token,process.env.JWT_SECRET)
    

@@ -13,6 +13,8 @@ import ConfettiExplosion from 'react-confetti-explosion';
 import Modal from 'react-modal';
 import CoursePageShimmer from './Shimmer/CoursePageShimmer';
 
+import Cookies from 'js-cookie';
+
 const CoursePage = () => {
     const [loading, setLoading] = useState(true);
     const { isDarkMode } = useShared();
@@ -31,11 +33,34 @@ const CoursePage = () => {
     const [likedByUser, setLikedByUser] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    console.log("VVV : ", course)
+    const [actualCheckedVideos,setActualCheckedVideos] = useState([])
+    // console.log("H : ",actualCheckedVideos)
+
+    // console.log("VVV : ", course)
     let totalLectures = 0;
     if (course !== null && course.videos.length > 0) totalLectures = course.videos.length;
     const completedLectures = checkedState.filter(Boolean).length;
     const percentage = (completedLectures / totalLectures) * 100;
+
+    useEffect(() => {
+        const fetchCurrentCheckVideos = async () => {
+            try {
+                const response = await axios.get(`${apiBaseUrl}/checkBox/check/${coursebyId}`, { withCredentials: true });
+                const tt = response.data.data.check
+                const curVid = []
+                tt.map((id) => {
+                    curVid.push(id.video)
+                })
+
+                setActualCheckedVideos(curVid)
+            } catch (error) {
+                console.log(error);
+                navigate('/Login');
+            }
+        };
+
+        fetchCurrentCheckVideos();
+    },[apiBaseUrl,navigate,coursebyId])
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -91,7 +116,7 @@ const CoursePage = () => {
         };
 
         fetchCourse();
-    }, [coursebyId, navigate]);
+    }, [coursebyId, navigate,apiBaseUrl]);
 
     useEffect(() => {
         const getCurrentLikes = async () => {
@@ -108,18 +133,28 @@ const CoursePage = () => {
             }
         };
         getCurrentLikes();
-    }, [selectedVideo, userid]);
+    }, [selectedVideo, userid,apiBaseUrl]);
 
     const handleCurrentVideo = (video) => {
         setSelectedVideo(video);
         setCurrentVideo(video.videoFile);
     };
 
-    const handleCheckboxChange = (index) => {
-        const updatedCheckedState = checkedState.map((item, pos) =>
-            pos === index ? !item : item
-        );
-        setCheckedState(updatedCheckedState);
+    const handleCheckboxChange = (id) => {
+        console.log(userid)
+        console.log(coursebyId)
+        console.log(id)
+        axios.post(`${apiBaseUrl}/checkBox/${coursebyId}/${id}`,{
+            withCredentials: true
+        })
+        .then(response => {
+            console.log("FFFFFFFFFF : ",response.data)
+            const info = response.data.message;
+            console.log(info);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     };
 
     if (!course || loading) {
@@ -240,7 +275,7 @@ const CoursePage = () => {
                                     <input
                                         type="checkbox"
                                         checked={checkedState[index]}
-                                        onChange={() => handleCheckboxChange(index)}
+                                        onChange={() => handleCheckboxChange(video._id)}
                                     />
                                     <label className="text-sm line-clamp-1">{video.description}</label>
                                 </div>

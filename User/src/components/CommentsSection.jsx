@@ -174,7 +174,7 @@ const CommentsSection = ({ videoId }) => {
                 </div>
                 <div className="flex flex-row mt-2">
                   <div className='flex-1 flex flex-row'>
-                    <button
+                    <button 
                       onClick={() => handleCommentLike(commentData.id)}
                       className="text-blue-500 p-2 flex flex-row"
                     >
