@@ -101,7 +101,7 @@ const CommentsSection = ({ videoId }) => {
     }
 
     const handleDeleteComment = (id, isReply = false, parentId = null) => {
-        axios.delete(`${apiBaseUrl}/api/v1/comments/${id}`, {
+        axios.delete(`${apiBaseUrl}/comments/${id}`, {
             withCredentials: true
         })
         .then(function (response) {

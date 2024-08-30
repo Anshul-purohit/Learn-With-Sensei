@@ -37,7 +37,9 @@ const VerifyEmail = () => {
         </p>
         {message === 'User Verified Successfully' && (
           <p className="text-gray-500 text-sm mt-4">
-            {/* // add timer also */}
+            
+            // add timer also 
+            
             Redirecting to login page in 8 seconds
           </p>
         )}
