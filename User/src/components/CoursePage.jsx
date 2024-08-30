@@ -140,21 +140,21 @@ const CoursePage = () => {
         setCurrentVideo(video.videoFile);
     };
 
-    const handleCheckboxChange = (id) => {
+    const handleCheckboxChange = async (id) => {
         console.log(userid)
         console.log(coursebyId)
         console.log(id)
-        axios.post(`${apiBaseUrl}/checkBox/${coursebyId}/${id}`,{
-            withCredentials: true
-        })
-        .then(response => {
-            console.log("FFFFFFFFFF : ",response.data)
-            const info = response.data.message;
-            console.log(info);
-        })
-        .catch(error => {
+        try {
+            const response = await axios.patch(
+                `${apiBaseUrl}/checkBox/${coursebyId}/${id}`,
+                {}, // Request body can be empty if no data is needed for the update
+                { withCredentials: true } // Request configuration
+            );
+    
+            console.log(response.data);
+        } catch (error) {
             console.log(error);
-        });
+        }
     };
 
     if (!course || loading) {

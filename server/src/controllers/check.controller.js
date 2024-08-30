@@ -7,7 +7,7 @@ const { Check} = require("../models/check.model");
 
 const toggleVideoCheck = asyncHandler(async (req, res , next) => {
 
-  const { videoId , courseId } = req.params;
+  const { courseId, videoId } = req.params;
   console.log("video id", videoId);
   // cheking if video is liked than do unlike else do like
   if(!videoId || !videoId.trim()){

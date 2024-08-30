@@ -8,7 +8,7 @@ const auth = require('../middleware/auth.middlewares.js')
 // router.use(auth);
 
 
-router.route("/:courseId/:videoId").post(auth,toggleVideoCheck)
+router.route("/:courseId/:videoId").patch(auth,toggleVideoCheck)
 router.route("/check/:courseId").get(auth,courseCheckVideo) 
 
 
