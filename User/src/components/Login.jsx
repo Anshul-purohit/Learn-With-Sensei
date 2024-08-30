@@ -35,12 +35,11 @@ const Login = () => {
             toast.success("Logged in successfully!");
             const fullname = response.data.message.fullName;
             const id = response.data.message._id;
-            Cookies.set('username', username, { expires: 1 });
-            Cookies.set('fullname', fullname, { expires: 1 });
-            Cookies.set('email', email, { expires: 1 });
-            Cookies.set('userid', id, { expires: 1 });
             login(username, fullname, email, id);
             handleToggleOpen();
+
+            // Add a loader here for 3 second then go to home page
+
             navigate('/');
         })
         .catch(function (error) {
