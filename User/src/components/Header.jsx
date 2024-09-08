@@ -3,16 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaUserCircle } from "react-icons/fa";
 import { useShared } from '../SharedContext';
 import axios from "axios";
-import {ToastContainer,toast} from "react-toastify"
+import { toast } from "react-toastify"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import '../style.css';
 import logo from '../assets/logo2.png';
-import Cookies from 'js-cookie';
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useShared();
-  const { isToggleOpen, handleToggleOpen, isAuthenticated, user, logout } = useShared();
+  const { isToggleOpen, handleToggleOpen, isAuthenticated, logout } = useShared();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();
   const {apiBaseUrl} = useShared()
@@ -28,12 +27,6 @@ const Header = () => {
     .then(function (response) {     
         toast.success("Logout successfully!");
         console.log(response.data);
-        Cookies.remove('username');
-        Cookies.remove('fullname');
-        Cookies.remove('email');
-        Cookies.remove('userid');
-        Cookies.remove('access_token');
-        Cookies.remove('connect.sid');
         logout();
         setShowProfileMenu(false);
         navigate('/Login');
@@ -77,16 +70,13 @@ const Header = () => {
                 Home
               </Link>
             </li>
-            <li className="mr-3">
-              <Link to={"/Profile"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-32 rounded text-center`}>
-                Profile
-              </Link>
-            </li>
-            <li className="mr-3">
-              <Link to={"/Course/usercourses"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-36 rounded text-center`}>
-                My Courses
-              </Link>
-            </li>
+            {isAuthenticated && 
+              <li className="mr-3">
+                <Link to={"/Course/usercourses"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-36 rounded text-center`}>
+                  My Courses
+                </Link>
+              </li>
+            }
             <li className="mr-3">
               <Link to={"/Course/allcourses"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-36 rounded text-center`}>
                 All Courses
@@ -98,23 +88,18 @@ const Header = () => {
               </Link>
             </li>
             {isAuthenticated  ? (
-              <li>
-              <div className="relative">
-                <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
+              <li className="relative group">
+                <div className="flex items-center space-x-2 cursor-pointer">
                   <FaUserCircle 
-                      className={`size-10 inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold  no-underline w-full lg:w-12 rounded-full text-center hover:bg-teal-500`}                      
+                    className={`size-10 inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800' : 'text-gray-200'} font-bold no-underline w-full lg:w-12 rounded-full text-center hover:bg-teal-500`}                      
                   />
-                  <span>{user}</span>
                 </div>
-                {showProfileMenu && (
-                  <div className={`absolute right-0 mt-2 w-48 ${isDarkMode ? 'bg-gray-700' : 'bg-white'} shadow-lg z-50`}>
-                    <Link to="/Profile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>My Profile</Link>
-                    <Link to="/editprofile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>Edit Profile</Link>
-                    <div className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'} cursor-pointer`} onClick={handleLogout}>Logout</div>
-                  </div>
-                )}
-              </div>
-            </li>
+                <div className={`absolute right-0 mt-2 w-48 opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-gray-700' : 'bg-white'} shadow-lg z-50`}>
+                  <Link to="/Profile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>My Profile</Link>
+                  <Link to="/editprofile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>Edit Profile</Link>
+                  <div className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'} cursor-pointer`} onClick={handleLogout}>Logout</div>
+                </div>
+              </li>            
             ) : (
               <li>
                 <Link to={"/Login"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-32 rounded text-center`}>

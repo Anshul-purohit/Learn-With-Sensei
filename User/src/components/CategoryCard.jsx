@@ -1,7 +1,6 @@
-// import React from 'react';
-// import { Link } from 'react-router-dom';
 import { FaLaptopCode, FaDatabase, FaCogs, FaProjectDiagram, FaBrain, FaRobot, FaMobileAlt, FaPalette } from 'react-icons/fa';
 import { useShared } from '../SharedContext';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -17,7 +16,8 @@ const categories = [
 ];
 
 const CategoryCard = () => {
-  const { isDarkMode, toggleTheme } = useShared();
+  const { isDarkMode } = useShared();
+  const navigate = useNavigate()
 
   return (
     <div className={`w-full relative flex items-center justify-center content-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
@@ -29,7 +29,10 @@ const CategoryCard = () => {
             <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-zinc-200' : 'text-zinc-600'}`}>Top Categories</h1>
             <h4 className={`${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`}>Explore our popular Categories</h4>
           </div>
-          <button className={`border ${isDarkMode ? 'border-gray-200 text-gray-200' : 'border-gray-900 text-gray-900'} font-semibold px-4 py-2 rounded-xl hover:text-gray-500 hover:border-gray-500 transition-colors duration-300`} onClick={toggleTheme}>
+          <button 
+            className={`border ${isDarkMode ? 'border-gray-200 text-gray-200' : 'border-gray-900 text-gray-900'} font-semibold px-4 py-2 rounded-xl hover:text-gray-500 hover:border-gray-500 transition-colors duration-300`} 
+            onClick={() => navigate('/Course/allcourses')}
+          >
             All Categories
           </button>
         </div>

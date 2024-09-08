@@ -1,21 +1,22 @@
-// import React from 'react';
 import { useEffect, useState } from 'react';
 import GirlImg from '../assets/girl-image.jpg';
 import axios from 'axios';
 import { useShared } from '../SharedContext';
+import { useNavigate } from 'react-router-dom';
 
 const Statistics = () => {
 
   const [students,setStudents] = useState(0);
   const [courses,setCourses] = useState(0);
-  const [instructors,setInstructors] = useState(0);
+  // const [instructors,setInstructors] = useState(0);
   const [category,setCategory] = useState(0);
   const {apiBaseUrl} = useShared()
+  const navigate = useNavigate();
 
   const statisticsData = [
     { id: 1, label: 'Students Joined', value: students },
     { id: 2, label: 'Courses Available', value: courses },
-    { id: 3, label: 'Instructors', value: '30' },
+    { id: 3, label: 'Instructors', value: 4 },
     { id: 4, label: 'Category', value: category },
   ];
 
@@ -32,7 +33,24 @@ const Statistics = () => {
     .catch(function (error) {
         console.log(error);
     });
-  },[])
+
+    // axios.get(`http://localhost:8001/api/v1/dashboard/`, {
+    //     withCredentials: true
+    // })
+    // .then(function (response) {
+    //     console.log("from teacher : ",response.data.data);
+    //     setInstructors(response.data.data.numberOfTeacher)
+    // })
+    // .catch(function (error) {
+    //     console.log(error);
+    // });
+  },[apiBaseUrl])
+
+
+
+  const handleExploreMore = () => {
+    navigate('/Course/allcourses')
+  }
 
   const { isDarkMode } = useShared();
   return (
@@ -51,9 +69,12 @@ const Statistics = () => {
             <p className={`${isDarkMode?'text-gray-300':'text-gray-500'} text-base lg:text-lg mb-6 font-semibold transform translate-y-4`}>
               Unlock exclusive content, gain access to expert-led courses, and take the next step in your career.
             </p>
-            <a href="/signup" className={`w-40 ${isDarkMode ? 'bg-gray-800 text-teal-400 hover:bg-gray-700' : 'bg-gray-200 text-teal-800 hover:bg-gray-300'} font-semibold px-6 py-3 rounded-lg transition-colors duration-300 transform translate-y-4`}>
-              Explore More
-            </a>
+            <button 
+                className={`w-40 ${isDarkMode ? 'bg-gray-800 text-teal-400 hover:bg-gray-700' : 'bg-gray-200 text-teal-800 hover:bg-gray-300'} font-semibold px-6 py-3 rounded-lg transition-colors duration-300 transform translate-y-4`}
+                onClick={handleExploreMore}
+            >
+                Explore More
+            </button>
           </div>
           {/* Statistics Cards */}
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 items-center justify-center mb-8">

@@ -27,7 +27,7 @@ const Profile = () => {
         Cookies.set('userid', x._id, { expires: 1 });
         setUser(response.data.message);
 
-        if (!localStorage.getItem('pageRefreshed') && window.location.pathname !== "/profile") {
+        if (!localStorage.getItem('pageRefreshed') && window.location.pathname === "/profile") {
           localStorage.setItem('pageRefreshed', 'true');
           window.location.reload();
         }
@@ -39,47 +39,9 @@ const Profile = () => {
     };
 
     fetchUser();
-  }, [navigate]);
+  }, [navigate,apiBaseUrl]);
 
 
-  const courses = [
-    {
-      id: 1,
-      title: 'Introduction to Web Development',
-      description: 'Learn the basics of HTML, CSS, and JavaScript.',
-      image: 'https://via.placeholder.com/300',
-    },
-    {
-      id: 2,
-      title: 'React.js Crash Course',
-      description: 'Build interactive user interfaces with React.js.',
-      image: 'https://via.placeholder.com/300',
-    },
-    {
-      id: 3,
-      title: 'Node.js Fundamentals',
-      description: 'Explore backend development with Node.js and Express.',
-      image: 'https://via.placeholder.com/300',
-    },
-    {
-      id: 4,
-      title: 'Database Design and Management',
-      description: 'Learn SQL and database management concepts.',
-      image: 'https://via.placeholder.com/300',
-    },
-    {
-      id: 5,
-      title: 'Python for Data Science',
-      description: 'Introduction to Python programming for data analysis.',
-      image: 'https://via.placeholder.com/300',
-    },
-    {
-      id: 6,
-      title: 'UX/UI Design Principles',
-      description: 'Fundamentals of user experience and interface design.',
-      image: 'https://via.placeholder.com/300',
-    },
-  ];
 
   const handleLogout = () => {
     axios.get(`${apiBaseUrl}/users/logout`, {

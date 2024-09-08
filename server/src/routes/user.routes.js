@@ -45,7 +45,7 @@ router.get('/auth/google/callback', (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.redirect('http://localhost:5174/login');
+            return res.redirect('http://localhost:5174/Login');
         }
         req.logIn(user, async (err) => {
             if (err) {

@@ -26,7 +26,7 @@ const Courses = () => {
         };
     
         fetchCourses();
-      }, [navigate]);
+      }, [navigate,apiBaseUrl]);
 
     const handleCourseClick = (coursebyId) => {
         console.log("inside handle course click")

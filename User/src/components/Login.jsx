@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import loginImg from "../assets/login-img.png";
@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useShared } from '../SharedContext';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 const Login = () => {
     const { handleToggleOpen, login, apiBaseUrl } = useShared();
@@ -37,10 +36,7 @@ const Login = () => {
             const id = response.data.message._id;
             login(username, fullname, email, id);
             handleToggleOpen();
-
-            // Add a loader here for 3 second then go to home page
-
-            navigate('/');
+            navigate('/Profile');
         })
         .catch(function (error) {
             toast.error(error.response.data.message);

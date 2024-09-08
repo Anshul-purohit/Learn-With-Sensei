@@ -50,7 +50,7 @@ const CommentsSection = ({ videoId }) => {
 
 
 
-    console.log("zzz : ",comments)
+    // console.log("zzz : ",comments)
 
     const handleReplyChange = (e, index) => {
         const updatedReplies = { ...newReply, [index]: e.target.value };
