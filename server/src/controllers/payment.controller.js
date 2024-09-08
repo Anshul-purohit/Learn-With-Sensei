@@ -18,9 +18,11 @@ const instance = new razorpay({
   });
 
 const coursePayment = asyncHandler(async (req,res,next)=>{
-    const {fee,} = req.body
-
-    if(!fee){
+    const {fee} = req.body
+    console.log(fee);
+    console.log(typeof(fee)); 
+    // value of fee is in rupee and >= 0 possible
+    if(fee === undefined || fee === null){
         return next(new ApiError(400,"fee is required"))
     }
 

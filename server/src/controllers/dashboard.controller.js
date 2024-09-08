@@ -12,8 +12,17 @@ const getDashboardData = asyncHandler(async (req, res,next) => {
    const totalUsers = await AuthUser.countDocuments();
    const totalCourses = await Courses.countDocuments();
    const totalVideoCategory = await Courses.distinct("category");
+   // give count of all the category of courses
+   const countEachCategory = await Courses.aggregate([
+       {
+           $group: {
+               _id: "$category",
+               count: { $sum: 1 }
+           }
+       }
+   ])
    
-   return res.status(200).json(new ApiResponse(200, {totalUsers,totalCourses,totalVideoCategory}, "data fetched successfully"))
+   return res.status(200).json(new ApiResponse(200, {totalUsers,totalCourses,totalVideoCategory,countEachCategory}, "data fetched successfully"))
 })  
 
 module.exports = { getDashboardData }
