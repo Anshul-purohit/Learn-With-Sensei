@@ -22,15 +22,15 @@ const Statistics = () => {
 
   useEffect(() => {
     axios.get(`${apiBaseUrl}/dashboard`, {
-        withCredentials: true
+      withCredentials: true
     })
-    .then(function (response) {
+      .then(function (response) {
         console.log(response.data.data);
         setStudents(response.data.data.totalUsers)
         setCourses(response.data.data.totalCourses)
         setCategory(response.data.data.totalVideoCategory.length)
-    })
-    .catch(function (error) {
+      })
+      .catch(function (error) {
         console.log(error);
     });
 
@@ -66,7 +66,7 @@ const Statistics = () => {
             <h2 className={`text-2xl lg:text-4xl font-bold ${isDarkMode ? 'text-gray-800' : 'text-gray-600'} mb-4 transform translate-y-4`}>
               Join Our Community of Learners!
             </h2>
-            <p className={`${isDarkMode?'text-gray-300':'text-gray-500'} text-base lg:text-lg mb-6 font-semibold transform translate-y-4`}>
+            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-500'} text-base lg:text-lg mb-6 font-semibold transform translate-y-4`}>
               Unlock exclusive content, gain access to expert-led courses, and take the next step in your career.
             </p>
             <button 
@@ -96,11 +96,15 @@ const Statistics = () => {
             <div className={`md:w-1/2 p-6 ${isDarkMode ? 'bg-teal-700' : 'bg-teal-200'}`} style={{ height: "495px" }}>
               <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'} mb-4 transform translate-y-4`}>Why Join Us?</h2>
               <ul className={`list-disc list-inside ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} transform translate-y-4`}>
-                <li className="mb-2">Access to high-quality courses from experienced instructors.</li>
-                <li className="mb-2">Earn recognized certifications to boost your career.</li>
-                <li className="mb-2">Join a community of learners and grow your network.</li>
-                <li className="mb-2">Flexible learning schedule to suit your pace.</li>
-                <li className="mb-2">24/7 access to course materials and resources.</li>
+              <li className="mb-2">Learn from top industry instructors</li>
+<li className="mb-2">Develop hands-on skills applicable to real-world projects</li>
+<li className="mb-2">Connect with peers to expand your network & share ideas</li>
+<li className="mb-2">Study at your own pace with a flexible learning schedule</li>
+<li className="mb-2">24/7 access to course materials</li>
+<li className="mb-2">Keep up with the latest trends through updated courses</li>
+<li className="mb-2">Engage in interactive assignments and discussions</li>
+
+                
               </ul>
             </div>
           </div>
