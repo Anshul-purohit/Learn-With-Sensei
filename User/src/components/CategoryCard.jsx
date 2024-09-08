@@ -1,6 +1,8 @@
 import { FaLaptopCode, FaDatabase, FaCogs, FaProjectDiagram, FaBrain, FaRobot, FaMobileAlt, FaPalette } from 'react-icons/fa';
 import { useShared } from '../SharedContext';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 
@@ -16,8 +18,23 @@ const categories = [
 ];
 
 const CategoryCard = () => {
-  const { isDarkMode } = useShared();
+  const { isDarkMode,apiBaseUrl } = useShared();
   const navigate = useNavigate()
+  const [cat,setCat] = useState()
+
+  useEffect(() => {
+    axios.get(`${apiBaseUrl}/dashboard`, {
+      withCredentials: true
+    })
+      .then(function (response) {
+        // console.log("f : ",response.data.data)
+        setCat(response.data.data.countEachCategory);
+      })
+      .catch(function (error) {
+        console.log(error);
+    });
+
+  },[apiBaseUrl])
 
   return (
     <div className={`w-full relative flex items-center justify-center content-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
@@ -37,13 +54,14 @@ const CategoryCard = () => {
           </button>
         </div>
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {categories.map((category, index) => (
+          {cat && cat.map((category, index) => (
             <div key={index} className={`size-56 border ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-300'} rounded-lg flex flex-col items-center justify-center hover:-translate-y-1 border hover:border-teal-500 hover:shadow-2xl transition ease-in-out duration-300 transform`}>
               <div className={`text-4xl ${isDarkMode ? 'text-teal-300' : 'text-teal-500'} mb-2`}>
-                {category.icon}
+                {category._id==="Web Development" && <FaLaptopCode />}
+                {category._id==="Data Structure & Algorithm" && <FaDatabase />}
               </div>
-              <h4 className={`text-lg font-bold ${isDarkMode ? 'text-zinc-200' : 'text-zinc-600'}`}>{category.name}</h4>
-              <h6 className={`${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`}>{category.courses} Courses</h6>
+              <h4 className={`text-lg font-bold ${isDarkMode ? 'text-zinc-200' : 'text-zinc-600'}`}>{category._id}</h4>
+              <h6 className={`${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`}>{category.count} Courses</h6>
             </div>
           ))}
         </div>

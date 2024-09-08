@@ -37,12 +37,12 @@ const getAllCourses = asyncHandler(async (req, res, next) => {
         if (userId) {
             courses = await Courses
                 .find({ owner: userId, ...queryObj })  // Include queryObj in the find condition
-                .sort(sortObj).select('-videos');
+                .sort(sortObj);
                 
         } else {
             courses = await Courses
                 .find(queryObj)  // Include queryObj in the find condition
-                .sort(sortObj).select('-videos');
+                .sort(sortObj);
                 
         }
         console.log(courses);

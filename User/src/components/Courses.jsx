@@ -68,12 +68,27 @@ const Courses = () => {
                   <div>
                     <img src={course.thumbnail} alt={course.name} className="w-full h-40 object-cover rounded-t-lg mb-4" />
                     <h4 className={`text-lg font-bold mb-2 ${isDarkMode ? 'text-gray-100' : 'text-zinc-600'}`}>{course.name}</h4>
-                    <p style={{ textAlign: 'justify' }}  className={`mb-4 text-sm lg:text-md line-clamp-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>{course.description}</p>
-                    <p className={`font-semibold mb-4 ${isDarkMode ? 'text-teal-400' : 'text-teal-500'}`}>{course.videos.length} Lectures</p>
+                    <p style={{ textAlign: 'justify' }}  className={`mb-4 text-sm lg:text-md line-clamp-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>{course.description}</p>
+                    <div className="flex items-center justify-between">
+                      <p className={`font-semibold ${isDarkMode ? 'text-teal-400' : 'text-teal-500'}`}>
+                        Led by: {course.owner_name}
+                      </p>
+                      <p className="text-gray-600">{course.videos.length}</p>
+                    </div>
                   </div>
-                  <button onClick={() => handleCourseClick(course._id,course.name,course.description,course.thumbnail)} className={`w-40 mt-auto border font-semibold px-4 py-2 rounded-xl transition-colors duration-300 ${isDarkMode ? 'border-gray-400 text-gray-400 hover:text-gray-200 hover:border-gray-200' : 'border-gray-900 text-gray-900 hover:text-gray-500 hover:border-gray-500'}`}>
-                    Explore Course
-                  </button>
+                  <div className="mt-4 flex items-center space-x-4">
+                    <button
+                      onClick={() =>
+                        handleCourseClick(course._id, course.name, course.description, course.thumbnail)
+                      }
+                      className={`w-40 border font-semibold px-4 py-2 rounded-xl transition-colors duration-300 ${isDarkMode ? 'border-gray-400 text-gray-400 hover:text-gray-200 hover:border-gray-200' : 'border-gray-900 text-gray-900 hover:text-gray-500 hover:border-gray-500'}`}
+                    >
+                      Explore Course
+                    </button>
+                    <p className={`text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-zinc-600'}`}>
+                      ₹{course.price}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
