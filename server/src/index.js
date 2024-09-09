@@ -76,13 +76,13 @@ app.use('/api/v1/checkBox',require('./routes/check.routes.js'))
 
 // import {apiBaseUrl} from '../../'
 
-const path = require("path")
+// const path = require("path")
 
-// const __dirname = path.resolve()
-app.use(express.static(path.join(__dirname, "../../User/dist")))
-app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../../User/dist/index.html"))
-})
+// // const __dirname = path.resolve()
+// app.use(express.static(path.join(__dirname, "../../User/dist")))
+// app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "../../User/dist/index.html"))
+// })
 
 app.use(errorHandler)
 const port = process.env.PORT || 4000;
