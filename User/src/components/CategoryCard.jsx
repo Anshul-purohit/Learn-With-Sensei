@@ -53,7 +53,7 @@ const CategoryCard = () => {
             All Categories
           </button>
         </div>
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
         {cat && cat.map((category, index) => (
           <div key={index} className={`size-56 border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'} rounded-lg flex flex-col items-center justify-center hover:-translate-y-1 border hover:border-teal-500 hover:shadow-2xl transition ease-in-out duration-300 transform`}>
             <div className={`text-4xl flex items-center justify-center ${isDarkMode ? 'text-teal-300' : 'text-teal-500'} mb-2`}>

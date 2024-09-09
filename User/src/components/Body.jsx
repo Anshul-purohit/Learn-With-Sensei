@@ -23,12 +23,11 @@ const Body = () => {
                                     Build Skills With Online Courses
                                 </h2>
                                 <p className="text-left text-lg text-gray-600 mb-4">
-                                Boost your skills with expertly crafted courses. Start today and stay focused on success!                                </p>
+                                Boost your skills with expertly crafted courses. Start today and stay focused on success! </p>
                                 <div className="text-left"> 
                                     <button 
                                         className="font-semibold transition ease-in-out delay-150 bg-teal-700 hover:bg-teal-900 hover:-translate-y-1 duration-300 rounded px-4 py-2 text-white w-52 bg-teal-500 hover:bg-teal-700"
-                                        onClick={handleExploreMore}
-                                    >
+                                        onClick={handleExploreMore}>
                                         Explore More
                                     </button>
                                 </div>
