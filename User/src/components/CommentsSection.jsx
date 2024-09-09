@@ -179,15 +179,15 @@ const CommentsSection = ({ videoId }) => {
                       className="text-blue-500 p-2 flex flex-row"
                     >
                       {console.log("yyy :",commentData)}
-                      {commentData.likedBy.map((user) => {
-                        console.log(" z  : ", user === userid);
-                        return user === userid ? (
-                          <ThumbUpSolid className="h-5 w-5" />
-                        ) : (
-                          <ThumbUpIcon className="h-5 w-5" />
-                        );
+                      {commentData.likedBy.map((user, index) => {
+                        console.log("z  : ", user === userid);
+                        if (user === userid) {
+                          // setLikedByUser(true)
+                          return <ThumbUpSolid key={index} className="h-5 w-5" />;
+                        }
                       })}
-                      {commentData.likedBy.length==0 && <ThumbUpIcon className="h-5 w-5" />} 
+
+                      {(commentData.likedBy.length==0 || likedByUser===false) && <ThumbUpIcon className="h-5 w-5" />} 
                       
                       <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{commentData.initialLike}</p>
                     </button>
@@ -242,11 +242,9 @@ const CommentsSection = ({ videoId }) => {
                               {console.log("tt : ",reply)}
                               {reply.likedBy.map((user) => {
                                 console.log(" z  : ", user === userid);
-                                return user === userid ? (
-                                  <ThumbUpSolid className="h-5 w-5" />
-                                ) : (
-                                  <ThumbUpIcon className="h-5 w-5" />
-                                );
+                                if (user === userid) {
+                                  return <ThumbUpSolid key={index} className="h-5 w-5" />;
+                                }
                               })}
                               {reply.likedBy.length==0 && <ThumbUpIcon className="h-5 w-5" />}
                               {/* <ThumbUpIcon className="h-5 w-5" /> */}

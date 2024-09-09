@@ -1,4 +1,4 @@
-import { FaLaptopCode, FaDatabase, FaCogs, FaProjectDiagram, FaBrain, FaRobot, FaMobileAlt, FaPalette } from 'react-icons/fa';
+import { FaLaptopCode, FaDatabase, FaPalette } from 'react-icons/fa';
 import { useShared } from '../SharedContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -6,16 +6,16 @@ import axios from 'axios';
 
 
 
-const categories = [
-  { name: 'Web Development', courses: 34, icon: <FaLaptopCode /> },
-  { name: 'Data Structures', courses: 34, icon: <FaDatabase /> },
-  { name: 'Algorithms', courses: 34, icon: <FaCogs /> },
-  { name: 'Database', courses: 34, icon: <FaProjectDiagram /> },
-  { name: 'Machine Learning', courses: 34, icon: <FaBrain /> },
-  { name: 'Artificial Intelligence', courses: 34, icon: <FaRobot /> },
-  { name: 'Android Development', courses: 34, icon: <FaMobileAlt /> },
-  { name: 'UX/UI Design', courses: 34, icon: <FaPalette /> },
-];
+// const categories = [
+//   { name: 'Web Development', courses: 34, icon: <FaLaptopCode /> },
+//   { name: 'Data Structures', courses: 34, icon: <FaDatabase /> },
+//   { name: 'Algorithms', courses: 34, icon: <FaCogs /> },
+//   { name: 'Database', courses: 34, icon: <FaProjectDiagram /> },
+//   { name: 'Machine Learning', courses: 34, icon: <FaBrain /> },
+//   { name: 'Artificial Intelligence', courses: 34, icon: <FaRobot /> },
+//   { name: 'Android Development', courses: 34, icon: <FaMobileAlt /> },
+//   { name: 'UX/UI Design', courses: 34, icon: <FaPalette /> },
+// ];
 
 const CategoryCard = () => {
   const { isDarkMode,apiBaseUrl } = useShared();
@@ -53,17 +53,22 @@ const CategoryCard = () => {
             All Categories
           </button>
         </div>
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {cat && cat.map((category, index) => (
-            <div key={index} className={`size-56 border ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-300'} rounded-lg flex flex-col items-center justify-center hover:-translate-y-1 border hover:border-teal-500 hover:shadow-2xl transition ease-in-out duration-300 transform`}>
-              <div className={`text-4xl ${isDarkMode ? 'text-teal-300' : 'text-teal-500'} mb-2`}>
-                {category._id==="Web Development" && <FaLaptopCode />}
-                {category._id==="Data Structure & Algorithm" && <FaDatabase />}
-              </div>
-              <h4 className={`text-lg font-bold ${isDarkMode ? 'text-zinc-200' : 'text-zinc-600'}`}>{category._id}</h4>
-              <h6 className={`${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`}>{category.count} Courses</h6>
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+        {cat && cat.map((category, index) => (
+          <div key={index} className={`size-56 border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'} rounded-lg flex flex-col items-center justify-center hover:-translate-y-1 border hover:border-teal-500 hover:shadow-2xl transition ease-in-out duration-300 transform`}>
+            <div className={`text-4xl flex items-center justify-center ${isDarkMode ? 'text-teal-300' : 'text-teal-500'} mb-2`}>
+              {category._id === "Web Development" && <FaLaptopCode />}
+              {category._id === "Data Structure & Algorithm" && <FaDatabase />}
+              {category._id === "UI/UX Design" && <FaPalette />}
             </div>
-          ))}
+            <h4 className={`text-lg font-bold text-center ${isDarkMode ? 'text-zinc-200' : 'text-zinc-600'}`}>
+              {category._id}
+            </h4>
+            <h6 className={`text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`}>
+              {category.count} Courses
+            </h6>
+          </div>
+        ))}
         </div>
       </div>
     </div>
