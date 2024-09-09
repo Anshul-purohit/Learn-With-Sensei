@@ -19,12 +19,13 @@ const test = asyncHandler(async (req,res)=>{
 
 const check = asyncHandler(async (req,res)=>{
     res.cookie("access_token", req.user.tokens[0].token,{
-                expires:new Date(Date.now() + 15*60*1000),
-                httpOnly:true,
-                secure: false,
-                withCredentials:true
+        expires: new Date(Date.now() + 15* 60 * 1000), // Cookie expires in 1 day
+        httpOnly: true,  // Optional: Set this if you don't want the cookie to be accessible via JavaScript
+        secure: true,    // Must be true when using SameSite=None and HTTPS
+        sameSite: 'None',// Required for cross-site cookies
+        withCredentials: true // Set to true if you want to send cookies with cross-site requests
             })
-            res.redirect("api/v1/users/profile")
+            res.redirect("api/v1/users/Profile")
         
 })
 const registerUser = asyncHandler(async (req,res,next)=>{
@@ -96,7 +97,7 @@ if (req.files && req.files.avatar && req.files.avatar.length > 0) {
 
 
     // const verifyLink = `https://sensei-backend-bjr2.onrender.com/users/verify-token/${verifyToken}`; // path of frontend page
-    const verifyLink = `http://localhost:5174/users/verify-token/${verifyToken}`; // URL of the frontend route
+    const verifyLink = `https://learnwithsensei-frontend.onrender.com/users/verify-token/${verifyToken}`; // URL of the frontend route
 
 
     const mail_send = sendEmail(
@@ -203,10 +204,11 @@ const loginUser = asyncHandler( async (req,res,next)=>{
         await user.save();
 
         res.cookie("access_token",token,{
-            expires:new Date(Date.now() + 24*60*60*1000),
-            httpOnly:true,
-            secure: false,
-            withCredentials:true
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Cookie expires in 1 day
+            httpOnly: true,  // Optional: Set this if you don't want the cookie to be accessible via JavaScript
+            secure: true,    // Must be true when using SameSite=None and HTTPS
+            sameSite: 'None',// Required for cross-site cookies
+            withCredentials: true // Set to true if you want to send cookies with cross-site requests
         })
     }
     
