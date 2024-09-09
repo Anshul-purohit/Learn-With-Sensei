@@ -1,4 +1,4 @@
-import { FaLaptopCode, FaDatabase, FaPalette } from 'react-icons/fa';
+import { FaLaptopCode, FaDatabase, FaPalette, FaCogs } from 'react-icons/fa';
 import { useShared } from '../SharedContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -60,6 +60,7 @@ const CategoryCard = () => {
               {category._id === "Web Development" && <FaLaptopCode />}
               {category._id === "Data Structure & Algorithm" && <FaDatabase />}
               {category._id === "UI/UX Design" && <FaPalette />}
+              {category._id === "System Design" && <FaCogs />}
             </div>
             <h4 className={`text-lg font-bold text-center ${isDarkMode ? 'text-zinc-200' : 'text-zinc-600'}`}>
               {category._id}
