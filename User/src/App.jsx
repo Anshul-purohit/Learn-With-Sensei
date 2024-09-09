@@ -45,16 +45,16 @@ const App = () => {
         {!hideHeader && <Header />}
         <Routes>
           <Route path="/" element={<Body />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Signup" element={<Signup />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/editprofile" element={<EditProfile />} />
-          <Route path="/Course/allcourses" element={<Courses />} />
-          <Route path="/Course/usercourses" element={<UserCourses />} />
-          <Route path="/Course/coursefirst/:coursebyId" element={<CourseFirst />} />
-          <Route path="/Course/:coursebyId" element={<CoursePage />} />
-          <Route path="/Verify" element={<Verify />} />
-          <Route path="/About" element={<About />} />
+          <Route path="/course/allcourses" element={<Courses />} />
+          <Route path="/course/usercourses" element={<UserCourses />} />
+          <Route path="/course/coursefirst/:coursebyId" element={<CourseFirst />} />
+          <Route path="/course/:coursebyId" element={<CoursePage />} />
+          <Route path="/verify" element={<Verify />} />
+          <Route path="/about" element={<About />} />
           <Route path="/users/verify-token/:token" element={<VerifyEmail />} />
         </Routes>
         {!hideFooter && <Footer />}

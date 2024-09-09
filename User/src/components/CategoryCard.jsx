@@ -48,7 +48,7 @@ const CategoryCard = () => {
           </div>
           <button 
             className={`border ${isDarkMode ? 'border-gray-200 text-gray-200' : 'border-gray-900 text-gray-900'} font-semibold px-4 py-2 rounded-xl hover:text-gray-500 hover:border-gray-500 transition-colors duration-300`} 
-            onClick={() => navigate('/Course/allcourses')}
+            onClick={() => navigate('/course/allcourses')}
           >
             All Categories
           </button>

@@ -49,7 +49,7 @@ const Statistics = () => {
 
 
   const handleExploreMore = () => {
-    navigate('/Course/allcourses')
+    navigate('/course/allcourses')
   }
 
   const { isDarkMode } = useShared();

@@ -25,7 +25,7 @@ const EditCourse = () => {
             console.log(response.data)  
             toast.success("Course updated successfully!");
             setTimeout(() => {
-                navigate('/Course/allcourses');
+                navigate('/course/allcourses');
             }, 2000);
         })
         .catch(function (error) {

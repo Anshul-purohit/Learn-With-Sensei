@@ -29,7 +29,7 @@ const Header = () => {
         console.log(response.data);
         logout();
         setShowProfileMenu(false);
-        navigate('/Login');
+        navigate('/login');
         localStorage.removeItem('pageRefreshed');
     })
     .catch(function (error) {
@@ -72,18 +72,18 @@ const Header = () => {
             </li>
             {isAuthenticated && 
               <li className="mr-3">
-                <Link to={"/Course/usercourses"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-36 rounded text-center`}>
+                <Link to={"/course/usercourses"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-36 rounded text-center`}>
                   My Courses
                 </Link>
               </li>
             }
             <li className="mr-3">
-              <Link to={"/Course/allcourses"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-36 rounded text-center`}>
+              <Link to={"/course/allcourses"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-36 rounded text-center`}>
                 All Courses
               </Link>
             </li>
             <li className="mr-3">
-              <Link to={"/About"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-32 rounded text-center`}>
+              <Link to={"/about"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-32 rounded text-center`}>
                 About
               </Link>
             </li>
@@ -95,14 +95,14 @@ const Header = () => {
                   />
                 </div>
                 <div className={`absolute right-0 mt-2 w-48 opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-gray-700' : 'bg-white'} shadow-lg z-50`}>
-                  <Link to="/Profile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>My Profile</Link>
+                  <Link to="/profile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>My Profile</Link>
                   <Link to="/editprofile" className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'}`}>Edit Profile</Link>
                   <div className={`block px-4 py-2 ${isDarkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-800 hover:bg-gray-100'} cursor-pointer`} onClick={handleLogout}>Logout</div>
                 </div>
               </li>            
             ) : (
               <li>
-                <Link to={"/Login"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-32 rounded text-center`}>
+                <Link to={"/login"} className={`inline-block py-2 px-4 ${isDarkMode ? 'text-gray-800 ' : 'text-gray-200'} font-bold hover:bg-teal-500 no-underline w-full lg:w-32 rounded text-center`}>
                   Sign in
                 </Link>
               </li>

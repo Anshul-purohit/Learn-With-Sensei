@@ -35,7 +35,7 @@ const Profile = () => {
 
       } catch (error) {
         console.error("Error fetching user:", error);
-        navigate('/Login');
+        navigate('/login');
       }
     };
 
@@ -52,7 +52,7 @@ const Profile = () => {
         toast.success("Logout successfully!");
         console.log(response.data);
         logout();
-        navigate('/Login');
+        navigate('/login');
         localStorage.removeItem('pageRefreshed');
     })
     .catch(function (error) {

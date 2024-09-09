@@ -21,7 +21,7 @@ const Courses = () => {
             setCourses(response.data.data)
           } catch (error) {
             console.log(error)
-            navigate('/Login');
+            navigate('/login');
           }
         };
     
@@ -30,7 +30,7 @@ const Courses = () => {
 
     const handleCourseClick = (coursebyId) => {
         console.log("inside handle course click")
-        navigate(`/Course/coursefirst/${coursebyId}`)
+        navigate(`/course/coursefirst/${coursebyId}`)
         // navigate(`/Course/${coursebyId}`);
     }
 

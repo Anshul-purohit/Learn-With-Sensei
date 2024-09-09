@@ -42,7 +42,7 @@ const CoursePage = () => {
                 setActualCheckedVideos(checkedVideos);
             } catch (error) {
                 console.log(error);
-                navigate('/Login');
+                navigate('/login');
             }
         };
 
@@ -65,7 +65,7 @@ const CoursePage = () => {
                 }
             } catch (error) {
                 console.log(error);
-                navigate('/Login');
+                navigate('/login');
             }
         };
 

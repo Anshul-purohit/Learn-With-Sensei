@@ -34,7 +34,7 @@ const UpdateVideo = () => {
             console.log(response.data);
             toast.success("Video updated successfully!");
             setTimeout(() => {
-                navigate(`/Course/${courseId}`);
+                navigate(`/course/${courseId}`);
             }, 2000);
         } catch (error) {
             console.error(error);

@@ -19,7 +19,7 @@ const UserCourses = () => {
                 setCourses(response.data.data);
             } catch (error) {
                 console.error("Error fetching user:", error);
-                navigate('/Login');
+                navigate('/login');
             }
         };
 
@@ -37,7 +37,7 @@ const UserCourses = () => {
     useEffect(() => {
         if (!loading && courses.length === 0) {
             setTimeout(() => {
-                navigate('/Course/allcourses'); // Change this to your all courses page route
+                navigate('/course/allcourses'); // Change this to your all courses page route
             }, 5000);
         }
     }, [loading, courses, navigate]);
@@ -68,7 +68,7 @@ const UserCourses = () => {
                                         <p className={`font-semibold mb-4 ${isDarkMode ? 'text-teal-400' : 'text-teal-500'}`}>{course.course.videos.length} Lectures</p>
                                     </div>
                                     <button
-                                        onClick={() => navigate(`/Course/${course.course._id}`)}
+                                        onClick={() => navigate(`/course/${course.course._id}`)}
                                         className={`w-52 mt-auto border font-semibold px-4 py-2 rounded-xl transition-colors duration-300 ${isDarkMode ? 'border-gray-400 text-gray-400 hover:text-gray-200 hover:border-gray-200' : 'border-gray-900 text-gray-900 hover:text-gray-500 hover:border-gray-500'}`}
                                     >
                                         Explore Course

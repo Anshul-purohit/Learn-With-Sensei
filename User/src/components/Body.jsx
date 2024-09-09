@@ -9,7 +9,7 @@ const Body = () => {
     const navigate = useNavigate()
 
     const handleExploreMore = () => {
-        navigate('/Course/allcourses')
+        navigate('/course/allcourses')
     }
 
     return (

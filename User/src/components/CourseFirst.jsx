@@ -34,7 +34,7 @@ const CourseFirst = () => {
                 setPrice(x.price);
             } catch (error) {
                 console.log(error);
-                navigate('/Login');
+                navigate('/login');
             }
         };
 
@@ -90,7 +90,7 @@ const CourseFirst = () => {
                         withCredentials: true
                     }).then((verifyResponse) => {
                         console.log("Payment verified", verifyResponse.data);
-                        navigate(`/Course/usercourses`)
+                        navigate(`/course/usercourses`)
                     }).catch((error) => {
                         console.log("Error in payment verification:", error);
                     });
@@ -122,7 +122,7 @@ const CourseFirst = () => {
     };
 
     const handleExploreClick = () => {
-        navigate(`/Course/${coursebyId}`)
+        navigate(`/course/${coursebyId}`)
     }
 
     return (

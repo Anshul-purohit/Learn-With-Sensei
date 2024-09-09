@@ -35,7 +35,7 @@ const Signup = () => {
         .then(function (response) {
             toast.success("Registered Successfully!")
             console.log('data ', response.data);
-            navigate('/Verify');
+            navigate('/verify');
         })
         .catch(function (error) {
             // const parser = new DOMParser();
@@ -105,7 +105,7 @@ const Signup = () => {
                 <hr />
               </div>
               <h5 className={`bg-${isDarkMode ? 'gray-800' : 'white'} text-center mb-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} style={{ fontSize: "15px" }}>
-                Already Have an account? <button className={`text-${isDarkMode ? 'teal-400' : 'teal-600'} hover:text-teal-600`}><Link to="/Login">Login Here</Link></button>
+                Already Have an account? <button className={`text-${isDarkMode ? 'teal-400' : 'teal-600'} hover:text-teal-600`}><Link to="/login">Login Here</Link></button>
               </h5>
             </div>
             <div className={`flex-1 p-4 hidden md:flex items-center justify-center ${isDarkMode ? 'bg-teal-500' : 'bg-teal-300'} shadow-xl`}>
