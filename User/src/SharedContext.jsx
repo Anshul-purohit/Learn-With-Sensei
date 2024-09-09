@@ -16,7 +16,8 @@ export const SharedProvider = ({ children }) => {
     return savedTheme ? JSON.parse(savedTheme) : false;
   });
 
-  const apiBaseUrl = 'http://localhost:8000/api/v1'; 
+  // const apiBaseUrl = 'http://localhost:8000/api/v1';
+  const apiBaseUrl = 'https://learn-with-sensei.onrender.com/api/v1'; 
 
   const handleToggleOpen = () => {
     setIsToggleOpen(!isToggleOpen);

@@ -45,7 +45,8 @@ router.get('/auth/google/callback', (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.redirect('http://localhost:5174/Login');
+            // return res.redirect('http://localhost:5174/Login');
+            return res.redirect('https://learnwithsensei-frontend.onrender.com/Login');
         }
         req.logIn(user, async (err) => {
             if (err) {
@@ -56,15 +57,21 @@ router.get('/auth/google/callback', (req, res, next) => {
             user.tokens = user.tokens.concat({token})
             await user.save();
             res.cookie("access_token", token, {
+                // expires: new Date(Date.now() + 24*60*60*1000),
+                // httpOnly: true,
+                // secure: false,
+                // withCredentials: true
                 expires: new Date(Date.now() + 24*60*60*1000),
                 httpOnly: true,
                 secure: false,
-                withCredentials: true
+                withCredentials: true,
+                sameSite: 'none'
             });
             
            
             // Redirect to the profile page
-            return res.redirect('http://localhost:5174/profile');
+            // return res.redirect('http://localhost:5174/profile');
+            return res.redirect('https://learnwithsensei-frontend.onrender.com/Profile');
         });
     })(req, res, next);
 });

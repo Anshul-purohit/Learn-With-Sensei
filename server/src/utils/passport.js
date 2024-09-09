@@ -11,7 +11,8 @@ const {hashPassword,comparePassword} = require("../helpers/auth.helpers.js")
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8000/api/v1/users/auth/google/callback",
+    // callbackURL: "http://localhost:8000/api/v1/users/auth/google/callback",
+    callbackURL: "https://learn-with-sensei.onrender.com/api/v1/users/auth/google/callback",
     passReqToCallback: true
   },
   async function(request, accessToken, refreshToken, profile, done) {
