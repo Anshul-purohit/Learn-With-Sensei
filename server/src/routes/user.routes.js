@@ -62,10 +62,10 @@ router.get('/auth/google/callback', (req, res, next) => {
                 // secure: false,
                 // withCredentials: true
                 expires: new Date(Date.now() + 24*60*60*1000),
-                httpOnly: true,
-                secure: false,
-                withCredentials: true,
-                sameSite: 'none'
+                httpOnly: true,  // Prevents JavaScript access
+                secure: true,    // Ensures cookies are sent over HTTPS
+                sameSite: 'None'
+                // sameSite: 'none'
             });
             
            

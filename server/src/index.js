@@ -15,14 +15,14 @@ dotenv.config({
 })
 
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174','https://learnwithsensei-frontend.onrender.com','https://learnwithsensei-frontend.onrender.com/login','https://learnwithsensei-frontend.onrender.com/profile'];
-// app.use(
-//   cors({
-//     // https://learnwithsensei-frontend.onrender.com
-//       origin: 'https://learnwithsensei-frontend.onrender.com',
-//       credentials: true,
-//       methods: ["GET", "POST", "PUT", "DELETE","PATCH","OPTIONS","HEAD"],
-//   })
-// );
+app.use(
+  cors({
+    // https://learnwithsensei-frontend.onrender.com
+      origin: allowedOrigins,
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE","PATCH","OPTIONS","HEAD"],
+  })
+);
 
 app.use(cors({
   origin: function (origin, callback) {
