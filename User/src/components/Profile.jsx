@@ -27,7 +27,7 @@ const Profile = () => {
         Cookies.set('userid', x._id, { expires: 1 });
         setUser(response.data.message);
 
-        if (!localStorage.getItem('pageRefreshed') && window.location.pathname === "/profile") {
+        if (!localStorage.getItem('pageRefreshed') && window.location.pathname === "/Profile") {
           localStorage.setItem('pageRefreshed', 'true');
           window.location.reload();
         }
