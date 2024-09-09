@@ -14,25 +14,26 @@ dotenv.config({
     path: './.env'
 })
 
-// const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174','https://learnwithsensei-frontend.onrender.com'];
-app.use(
-  cors({
-      origin: 'https://learnwithsensei-frontend.onrender.com',
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE","PATCH","OPTIONS","HEAD"],
-  })
-);
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174','https://learnwithsensei-frontend.onrender.com'];
+// app.use(
+//   cors({
+//     // https://learnwithsensei-frontend.onrender.com
+//       origin: 'https://learnwithsensei-frontend.onrender.com',
+//       credentials: true,
+//       methods: ["GET", "POST", "PUT", "DELETE","PATCH","OPTIONS","HEAD"],
+//   })
+// );
 
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true
-// }));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS fdfsdfsdfsfsf'));
+    }
+  },
+  credentials: true
+}));
 
 
 app.use(session({

@@ -46,7 +46,7 @@ router.get('/auth/google/callback', (req, res, next) => {
         }
         if (!user) {
             // return res.redirect('http://localhost:5174/Login');
-            return res.redirect('https://learnwithsensei-frontend.onrender.com/login');
+            return res.redirect('https://learnwithsensei-frontend.onrender.com');
         }
         req.logIn(user, async (err) => {
             if (err) {
@@ -70,8 +70,9 @@ router.get('/auth/google/callback', (req, res, next) => {
             
            
             // Redirect to the profile page
+            // https://learnwithsensei-frontend.onrender.com
             // return res.redirect('http://localhost:5174/profile');
-            return res.redirect('https://learnwithsensei-frontend.onrender.com/profile');
+            return res.redirect('https://learnwithsensei-frontend.onrender.com');
         });
     })(req, res, next);
 });
