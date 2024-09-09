@@ -14,20 +14,27 @@ dotenv.config({
     path: './.env'
 })
 
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174','https://learnwithsensei-frontend.onrender.com'];
+// const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174','https://learnwithsensei-frontend.onrender.com'];
+app.use(
+  cors({
+      origin: 'https://learnwithsensei-frontend.onrender.com',
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true
+// }));
 
-// app.use(cookieParser())
+
 app.use(session({
     resave: false,
     saveUninitialized: true,
@@ -66,8 +73,16 @@ app.use('/api/v1/dashboard',require('./routes/dashboard.routes.js'))
 app.use('/api/v1/notes',require('./routes/notes.routes.js'))
 app.use('/api/v1/checkBox',require('./routes/check.routes.js'))
 
+// import {apiBaseUrl} from '../../'
+
+const path = require("path")
+
+const __dirname = path.resolve()
+app.use(express.static(path.join(__dirname, "../../User/build")))
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../../User/build/index.html"))
+})
+
 app.use(errorHandler)
-
-
 const port = process.env.PORT || 8000;
 app.listen(port,()=>console.log(`server is running on port ${port}`))
