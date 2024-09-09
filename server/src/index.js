@@ -77,12 +77,12 @@ app.use('/api/v1/checkBox',require('./routes/check.routes.js'))
 
 const path = require("path")
 
-const __dirname = path.resolve()
+// const __dirname = path.resolve()
 app.use(express.static(path.join(__dirname, "../../User/build")))
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../../User/build/index.html"))
 })
 
 app.use(errorHandler)
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 4000;
 app.listen(port,()=>console.log(`server is running on port ${port}`))
