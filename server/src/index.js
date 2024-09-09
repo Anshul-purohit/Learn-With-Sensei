@@ -78,9 +78,9 @@ app.use('/api/v1/checkBox',require('./routes/check.routes.js'))
 const path = require("path")
 
 // const __dirname = path.resolve()
-app.use(express.static(path.join(__dirname, "../../User/build")))
+app.use(express.static(path.join(__dirname, "../../User/dist")))
 app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../../User/build/index.html"))
+    res.sendFile(path.resolve(__dirname, "../../User/dist/index.html"))
 })
 
 app.use(errorHandler)
