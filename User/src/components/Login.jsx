@@ -115,7 +115,8 @@ import "react-toastify/dist/ReactToastify.css"
 // import Header from './Header';
 import { useShared } from '../SharedContext';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from './ThemeContext';
+// import { useTheme } from './ThemeContext';
+import { useShared } from '../SharedContext';
 import Cookies from 'js-cookie';
 
 const Login = () => {
@@ -124,7 +125,7 @@ const Login = () => {
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
     const [email,setEmail] = useState('')
-    const { isDarkMode} = useTheme();
+    const { isDarkMode} = useShared();
 
 
     const handleLogin = (e) => {
