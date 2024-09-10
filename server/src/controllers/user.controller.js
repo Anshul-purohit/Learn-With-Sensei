@@ -205,9 +205,10 @@ const loginUser = asyncHandler( async (req,res,next)=>{
 
         res.cookie("access_token",token,{
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Cookie expires in 1 day
-            httpOnly: true,  // Prevents JavaScript access
-            secure: true,    // Ensures cookies are sent over HTTPS
-            sameSite: 'None' // Required for cross-site cookies
+            httpOnly: true,  // Optional: Set this if you don't want the cookie to be accessible via JavaScript
+            secure: true,    // Must be true when using SameSite=None and HTTPS
+            sameSite: 'None',// Required for cross-site cookies
+            withCredentials: true // Set to true if you want to send cookies with cross-site requests
         })
     }
     
