@@ -61,11 +61,12 @@ router.get('/auth/google/callback', (req, res, next) => {
                 // httpOnly: true,
                 // secure: false,
                 // withCredentials: true
+                
                 expires: new Date(Date.now() + 24*60*60*1000),
-                httpOnly: true,
-                secure: false,
-                withCredentials: true,
-                sameSite: 'none'
+                httpOnly: true,  // Optional: Set this if you don't want the cookie to be accessible via JavaScript
+            secure: true,    // Must be true when using SameSite=None and HTTPS
+            sameSite: 'None',// Required for cross-site cookies
+            withCredentials: true 
             });
             
            
