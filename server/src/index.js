@@ -24,17 +24,33 @@ const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174','https:
 //   })
 // );
 
-app.use(cors({
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS fdfsdfsdfsfsf'));
+//     }
+//   },
+//   credentials: true
+// }));
+const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS fdfsdfsdfsfsf'));
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
-}));
+  methods: ["GET", "POST", "PUT", "DELETE","PATCH","OPTIONS","HEAD"],
+  credentials: true, // If you need to allow cookies or credentials to be sent
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: false,
+};
 
+app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions)); // Preflight for all routes
 
 app.use(session({
     resave: false,
