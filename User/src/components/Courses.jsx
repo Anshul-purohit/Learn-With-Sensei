@@ -40,7 +40,7 @@ const Courses = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
           setLoading(false);
-        }, 1000);
+        }, 1500);
     
         return () => clearTimeout(timer);
       }, []);
