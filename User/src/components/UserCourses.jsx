@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { useShared } from '../SharedContext';
 import axios from 'axios';
 import CoursesShimmer from './Shimmer/CoursesShimmer';
@@ -24,23 +24,15 @@ const UserCourses = () => {
         };
 
         fetchUserCourses();
-    }, [userid]);
+    }, [userid,apiBaseUrl,navigate]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 500);
+        }, 1000);
 
         return () => clearTimeout(timer);
     }, []);
-
-    useEffect(() => {
-        if (!loading && courses.length === 0) {
-            setTimeout(() => {
-                navigate('/course/allcourses'); // Change this to your all courses page route
-            }, 5000);
-        }
-    }, [loading, courses, navigate]);
 
     if (loading) {
         return <CoursesShimmer />;
@@ -83,6 +75,7 @@ const UserCourses = () => {
                     <div className="text-center">
                         <h2 className="text-5xl font-semibold mb-4 text-gray-900 dark:text-gray-100">You haven't purchased anything. 😔</h2>
                         <p className="text-2xl text-gray-600 dark:text-gray-400">Check out the available courses and enroll in the ones you like.</p>
+                        <Link to="/course/allcourses">All Courses</Link>
                     </div>
                 </div>
             )}

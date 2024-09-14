@@ -27,7 +27,7 @@ const App = () => {
   const { isAuthenticated } = useShared();
 
   useEffect(() => {
-    if (isAuthenticated && (location.pathname === '/Login' || location.pathname === '/Signup')) {
+    if (isAuthenticated && (location.pathname === '/login' || location.pathname === '/signup')) {
       console.log("xx : ", isAuthenticated);
       navigate('/');
     }
@@ -38,7 +38,7 @@ const App = () => {
                       !location.pathname.includes("/Course/allcourses") && 
                       !location.pathname.includes("/Course/usercourses") && 
                       !location.pathname.includes("/Course/coursefirst/");
-  const hideHeader = ["/Login", "/Signup"].includes(location.pathname);
+  const hideHeader = ["/login", "/signup"].includes(location.pathname);
 
   return (
       <div className="body-container">
